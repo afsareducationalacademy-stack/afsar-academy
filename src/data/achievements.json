@@ -1,0 +1,62 @@
+[
+  {
+    "id": "achieve-1",
+    "name": "Mohammed Zaid",
+    "board": "SSC (Class X Board Exam)",
+    "score": "10.0 GPA (Perfect Score)",
+    "year": "2025",
+    "badge": "State Gold Medalist",
+    "image": "/achievements/topper-1.jpg",
+    "quote": "Afsar Educational Academy gave me chapter-wise notes and daily model papers that helped me score a perfect 10/10 GPA in SSC!"
+  },
+  {
+    "id": "achieve-2",
+    "name": "Syeda Ayesha Fatima",
+    "board": "Intermediate (MPC)",
+    "score": "984 / 1000 Marks",
+    "year": "2025",
+    "badge": "Academy 1st Rank",
+    "image": "/achievements/topper-2.jpg",
+    "quote": "The Mathematics & Physics coaching by Mr. Afsar Shareef is unmatched. Personal doubt clearing helped me cross 98% in Inter!"
+  },
+  {
+    "id": "achieve-3",
+    "name": "Mirza Ibrahim Baig",
+    "board": "Intermediate (BiPC)",
+    "score": "976 / 1000 Marks",
+    "year": "2024",
+    "badge": "Medical Stream Topper",
+    "image": "/achievements/topper-3.jpg",
+    "quote": "Biology concepts were taught with deep clarity. I got top marks in Botany and Zoology thanks to regular mock tests."
+  },
+  {
+    "id": "achieve-4",
+    "name": "Shaik Arshad",
+    "board": "TOSS (Telangana Open School)",
+    "score": "Distinction (92%)",
+    "year": "2024",
+    "badge": "Year-Saver Topper",
+    "image": "/achievements/topper-4.jpg",
+    "quote": "I thought I lost an academic year, but Afsar Academy guided me through TOSS Open Schooling and got me admission in Degree!"
+  },
+  {
+    "id": "achieve-5",
+    "name": "Fatima Unnisa",
+    "board": "SSC (Class X Board Exam)",
+    "score": "9.8 GPA",
+    "year": "2024",
+    "badge": "Girls Stream Topper",
+    "image": "/achievements/topper-5.jpg",
+    "quote": "The disciplined morning and evening batches ensured I never missed a single revision. Highly recommend Afsar Academy!"
+  },
+  {
+    "id": "achieve-6",
+    "name": "Abdul Rahman",
+    "board": "Intermediate (CEC)",
+    "score": "962 / 1000 Marks",
+    "year": "2025",
+    "badge": "Commerce Stream Topper",
+    "image": "/achievements/topper-6.jpg",
+    "quote": "Accounts and Economics were made so simple with practical examples. Scored 99/100 in Accountancy!"
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "stat-years",
+    "value": 11,
+    "suffix": "+",
+    "label": "Years of Excellence",
+    "description": "Empowering students in Nampally, Hyderabad since 2014"
+  },
+  {
+    "id": "stat-success",
+    "value": 98,
+    "suffix": "%",
+    "label": "Success Rate",
+    "description": "Consistent high pass percentage across all board exams"
+  },
+  {
+    "id": "stat-students",
+    "value": 500,
+    "suffix": "+",
+    "label": "Students Enrolled",
+    "description": "Successful alumni pursuing higher education & careers"
+  },
+  {
+    "id": "stat-rating",
+    "value": 4.9,
+    "suffix": "/5",
+    "isDecimal": true,
+    "label": "Google Rating",
+    "description": "108+ Google reviews & 138+ Justdial ratings"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "review-1",
+    "name": "Syed Mohammed",
+    "role": "Parent of SSC Student",
+    "rating": 5,
+    "source": "Google Review",
+    "location": "Nampally Branch",
+    "avatar": "",
+    "avatarBg": "bg-purple-600",
+    "date": "2 months ago",
+    "text": "Afsar Educational Academy is hands down the best coaching center in Nampally. Mr. Afsar Shareef takes personal interest in every student's progress. My son scored 9.8 GPA in SSC Board exams after joining here!"
+  },
+  {
+    "id": "review-2",
+    "name": "Mirza Azam Baig",
+    "role": "Inter MPC Student",
+    "rating": 5,
+    "source": "Google Review",
+    "location": "Nampally Branch",
+    "avatar": "",
+    "avatarBg": "bg-blue-600",
+    "date": "3 months ago",
+    "text": "The faculty here is top notch. Physics and Maths concepts were explained so clearly. Evening batch timing suited my routine perfectly. Highly recommend for Intermediate students!"
+  },
+  {
+    "id": "review-3",
+    "name": "Feroz Khan",
+    "role": "TOSS Open Schooling Student",
+    "rating": 5,
+    "source": "Google Review",
+    "location": "Aghapura Location",
+    "avatar": "",
+    "avatarBg": "bg-emerald-600",
+    "date": "1 month ago",
+    "text": "I had a gap in my education, but thanks to Afsar Academy I passed my TOSS 10th and 12th in one attempt without losing years. Complete admission and study support provided."
+  },
+  {
+    "id": "review-4",
+    "name": "Asma Begum",
+    "role": "Parent of Class 10 Student",
+    "rating": 5,
+    "source": "Google Review",
+    "location": "Nampally Branch",
+    "avatar": "",
+    "avatarBg": "bg-rose-600",
+    "date": "4 months ago",
+    "text": "Safe, disciplined, and comfortable environment for girl students. The teachers pay attention to weak subjects and give individual attention. Very satisfied with the guidance."
+  },
+  {
+    "id": "review-5",
+    "name": "Mohammed Abdul Hameed",
+    "role": "Inter CEC Student",
+    "rating": 5,
+    "source": "Google Review",
+    "location": "Nampally Branch",
+    "avatar": "",
+    "avatarBg": "bg-amber-600",
+    "date": "5 months ago",
+    "text": "Excellent coaching for Commerce and Economics. Regular test series helped me manage exam time properly. 5 stars for dedication and quality teaching!"
+  },
+  {
+    "id": "review-6",
+    "name": "Devarakonda Ashwini",
+    "role": "Parent of SSC Student",
+    "rating": 5,
+    "source": "Google Review",
+    "location": "Nampally Location",
+    "avatar": "",
+    "avatarBg": "bg-indigo-600",
+    "date": "1 month ago",
+    "text": "I had an amazing experience at Afsar Educational Academy. The faculty especially Mr. Afsar Shareef is highly skilled, attentive, and gives expert exam guidance. Highly recommended!"
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "afsar-shareef",
+    "name": "Mr. Afsar Shareef",
+    "role": "Founder & Director",
+    "subject": "Mathematics & Educational Administration",
+    "qualification": "M.Sc (Maths), B.Ed",
+    "experience": "15+ Years",
+    "bio": "Visionary educator dedicated to establishing strong academic foundations and guiding thousands of students to academic success.",
+    "isFounder": true
+  },
+  {
+    "id": "faculty-science",
+    "name": "Prof. M. A. Rahman",
+    "role": "Senior Faculty",
+    "subject": "Physics & Chemistry",
+    "qualification": "M.Sc (Physics), 12+ Yrs Exp.",
+    "experience": "12+ Years",
+    "bio": "Specialist in making complex scientific concepts simple, intuitive, and memorable for board exam students."
+  },
+  {
+    "id": "faculty-commerce",
+    "name": "Syed Imran Ahmed",
+    "role": "Senior Faculty",
+    "subject": "Commerce & Accountancy",
+    "qualification": "M.Com, MBA",
+    "experience": "10+ Years",
+    "bio": "Expert in financial accounting and commerce, helping Intermediate & Degree students achieve top marks."
+  },
+  {
+    "id": "faculty-humanities",
+    "name": "Mohammed Khaja",
+    "role": "Senior Lecturer",
+    "subject": "Economics & Civics",
+    "qualification": "M.A (Economics)",
+    "experience": "11+ Years",
+    "bio": "Passionate humanities mentor guiding CEC and HEC students with structured exam notes and answer techniques."
+  },
+  {
+    "id": "faculty-biology",
+    "name": "Dr. Farhana Begum",
+    "role": "Visiting Lecturer",
+    "subject": "Botany & Zoology (BiPC)",
+    "qualification": "M.Sc (Botany), Ph.D",
+    "experience": "9+ Years",
+    "bio": "Detailed biological sciences instructor focusing on high-scoring answer presentation for IPE and Open Schooling exams."
+  },
+  {
+    "id": "faculty-languages",
+    "name": "Mrs. Shameem Sultana",
+    "role": "Senior Faculty",
+    "subject": "English & Communication Skills",
+    "qualification": "M.A (English Literature)",
+    "experience": "14+ Years",
+    "bio": "Dedicated language instructor building confidence in grammar, comprehension, and effective communication."
+  }
+]

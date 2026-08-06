@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ssc-10th",
+    "title": "Class IX & X (SSC / 10th Standard)",
+    "category": "SSC",
+    "badge": "Popular",
+    "description": "Comprehensive coaching for 9th & 10th Class students under Telangana State Board and CBSE. Focused on strong conceptual clarity, board exam preparations, and mock assessments.",
+    "boards": ["Telangana State Board", "CBSE"],
+    "classes": "Class 9 & 10",
+    "timing": "Morning & Evening Batches",
+    "features": [
+      "Experienced subject specialist faculties",
+      "Regular chapter-wise tests and mock board exams",
+      "Personalized doubt clearing sessions",
+      "Small batch sizes for maximum individual attention"
+    ]
+  },
+  {
+    "id": "intermediate-11th-12th",
+    "title": "Intermediate (Class XI & XII)",
+    "category": "Intermediate",
+    "badge": "Core Academic",
+    "description": "Thorough academic preparation for 1st & 2nd Year Intermediate across Science, Commerce, and Arts streams with focus on IPE board exam scoring.",
+    "boards": ["Telangana Board of Intermediate Education (TS BIE)"],
+    "classes": "1st Year & 2nd Year Inter",
+    "streams": ["MPC (Maths, Physics, Chem)", "BiPC (Biology, Physics, Chem)", "CEC (Civics, Econ, Commerce)", "MEC (Maths, Econ, Commerce)", "HEC (History, Econ, Civics)"],
+    "timing": "Morning & Evening Batches",
+    "features": [
+      "Stream-specific expert mentors",
+      "Comprehensive material & solved previous papers",
+      "Special guidance for lab practicals & theory scoring",
+      "Regular progress tracking and parent updates"
+    ]
+  },
+  {
+    "id": "toss-open-schooling",
+    "title": "TOSS (Telangana Open School Society)",
+    "category": "Open Schooling",
+    "badge": "Govt Recognized",
+    "description": "Direct admission and coaching for TOSS SSC (10th) and Intermediate (12th). Ideal for dropouts, working individuals, and direct year-saving candidates.",
+    "boards": ["Telangana Open School Society (Govt. of Telangana)"],
+    "classes": "TOSS SSC & TOSS Inter",
+    "timing": "Flexible Timings",
+    "features": [
+      "Complete admission assistance & document verification",
+      "Exam-focused study materials & guess papers",
+      "Flexible evening batch options for working students",
+      "100% guidance until successful completion"
+    ]
+  },
+  {
+    "id": "bosse-open-schooling",
+    "title": "BOSSE (Board of Open Schooling & Skill Education)",
+    "category": "Open Schooling",
+    "badge": "National Board",
+    "description": "Flexibility in education with BOSSE 10th & 12th coaching. Nationally recognized open schooling board with skill-oriented curriculum options.",
+    "boards": ["BOSSE Sikkim (Govt Recognized)"],
+    "classes": "Secondary & Sr. Secondary",
+    "timing": "Flexible Timings",
+    "features": [
+      "On-demand and annual exam coaching options",
+      "Skill-integrated subject combinations",
+      "Dedicated assignment and practical guidance",
+      "Fast-track guidance for higher education eligibility"
+    ]
+  },
+  {
+    "id": "nios-open-schooling",
+    "title": "NIOS (National Institute of Open Schooling)",
+    "category": "Open Schooling",
+    "badge": "MHRD Govt. of India",
+    "description": "Expert coaching for NIOS 10th & 12th standards. Recognized by all Indian universities, competitive exams, and government jobs.",
+    "boards": ["NIOS (Ministry of Education, Govt. of India)"],
+    "classes": "10th & 12th Standard",
+    "timing": "Flexible Batches",
+    "features": [
+      "TMA (Tutor Marked Assignment) full support",
+      "Practical exam preparation & record writing assistance",
+      "On-demand exam revision classes",
+      "Special coaching for NEET/JEE eligible subjects"
+    ]
+  },
+  {
+    "id": "degree-coaching",
+    "title": "Degree Level Coaching",
+    "category": "Degree",
+    "badge": "Higher Studies",
+    "description": "Targeted subject coaching for undergraduate university students (Osmania University and other major universities).",
+    "boards": ["Osmania University & Affiliated Colleges"],
+    "classes": "B.Com, B.A, B.Sc, BBA",
+    "timing": "Evening Batches",
+    "features": [
+      "Coaching for Financial Accounting, Economics, Corporate Laws & Stats",
+      "Explanations focused on university exam patterns",
+      "Backlog clearance & fast-track revision batches",
+      "Doubt clearing by senior degree lecturers"
+    ]
+  },
+  {
+    "id": "school-tuitions-6-8",
+    "title": "Class VI to VIII Foundation Tuitions",
+    "category": "SSC",
+    "badge": "Foundation",
+    "description": "Strong foundational coaching in Mathematics, Science, English, and Social Studies to build academic confidence early.",
+    "boards": ["State Board", "CBSE"],
+    "classes": "Class 6, 7 & 8",
+    "timing": "Evening Batches (5:30 PM - 7:30 PM)",
+    "features": [
+      "Daily homework assistance and concept strengthening",
+      "Mental math & science problem-solving skills",
+      "Regular testing and progress monitoring",
+      "Safe and nurturing learning environment"
+    ]
+  }
+]

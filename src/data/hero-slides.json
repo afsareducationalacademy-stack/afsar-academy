@@ -1,0 +1,29 @@
+[
+  {
+    "id": "hero-slide-1",
+    "title": "Director Mr. Afsar Shareef Award Felicitation",
+    "subtitle": "Personalized Academic Mentorship & Excellence Awards",
+    "image": "/achievements/afsar-student-appreciation-1.jpg",
+    "tag": "Director & Founder",
+    "category": "appreciation",
+    "recommendedDimensions": "1200 x 800 px (3:2 Ratio)"
+  },
+  {
+    "id": "hero-slide-2",
+    "title": "Afsar Educational Academy Campus & Classrooms",
+    "subtitle": "Disciplined & Comfortable Learning Environment in Nampally",
+    "image": "/achievements/group-batch-ssc.jpg",
+    "tag": "Classroom & Campus",
+    "category": "building",
+    "recommendedDimensions": "1200 x 800 px (3:2 Ratio)"
+  },
+  {
+    "id": "hero-slide-3",
+    "title": "SSC & Intermediate Graduating Students",
+    "subtitle": "100% Board Exam Guidance for SSC, Inter & Open Schooling",
+    "image": "/achievements/group-batch-inter.jpg",
+    "tag": "Passed Out Batches",
+    "category": "students",
+    "recommendedDimensions": "1200 x 800 px (3:2 Ratio)"
+  }
+]

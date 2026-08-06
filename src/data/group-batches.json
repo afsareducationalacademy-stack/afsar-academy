@@ -1,0 +1,50 @@
+[
+  {
+    "id": "group-poster-1",
+    "title": "SSC & Intermediate Multi-Topper Honor Roll",
+    "subtitle": "Hitesh Agarwal (9.3 GPA), Fatima Begum (8.3 GPA), Chidurala Shivani (92.4%), B Vinay Kumar (90.4%)",
+    "category": "ssc",
+    "image": "/achievements/ssc-inter-toppers-poster.jpg",
+    "isFullPoster": true
+  },
+  {
+    "id": "group-poster-2",
+    "title": "Passed Students Wall of Fame 2024-25 Grid Poster",
+    "subtitle": "Complete Record of Passed Out Students in SSC & Intermediate",
+    "category": "ssc",
+    "image": "/achievements/passed-students-grid-poster.jpg",
+    "isFullPoster": true
+  },
+  {
+    "id": "group-poster-3",
+    "title": "SSC 2025 Graduating Batch Photo",
+    "subtitle": "45+ Passed Out Students with 100% Board Exam Guidance",
+    "category": "ssc",
+    "image": "/achievements/group-batch-ssc.jpg",
+    "isFullPoster": true
+  },
+  {
+    "id": "group-poster-4",
+    "title": "Intermediate Senior Batch Celebration",
+    "subtitle": "MPC & BiPC Passed Out Graduates",
+    "category": "inter",
+    "image": "/achievements/group-batch-inter.jpg",
+    "isFullPoster": true
+  },
+  {
+    "id": "group-poster-5",
+    "title": "TOSS & BOSSE Open Schooling Passed Batch",
+    "subtitle": "35+ Year-Saver Students Cleared Single Attempt",
+    "category": "toss",
+    "image": "",
+    "isFullPoster": false
+  },
+  {
+    "id": "group-poster-6",
+    "title": "Osmania University Degree Coaching Batch",
+    "subtitle": "30+ Graduates Cleared 1st Class Honours",
+    "category": "degree",
+    "image": "",
+    "isFullPoster": false
+  }
+]

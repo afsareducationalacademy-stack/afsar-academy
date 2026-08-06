@@ -1,0 +1,51 @@
+[
+  {
+    "id": "topper-1",
+    "title": "Zuhaina Tajwar - SSC 2025 Girls Topper",
+    "subtitle": "557 / 600 (93%) • THIRDLANG: 98 | MATHS: 96 | SCIENCE: 95",
+    "image": "/achievements/zuhaina-tajwar-poster.jpg",
+    "isFullPoster": true
+  },
+  {
+    "id": "topper-2",
+    "title": "Mohammed Zaid - 10.0 GPA Perfect Score",
+    "subtitle": "State Gold Medalist • SSC 10th Board 2025",
+    "image": "",
+    "isFullPoster": false
+  },
+  {
+    "id": "topper-3",
+    "title": "Syeda Ayesha Fatima - 984 / 1000 Marks",
+    "subtitle": "Intermediate MPC Academy 1st Ranker 2025",
+    "image": "",
+    "isFullPoster": false
+  },
+  {
+    "id": "topper-4",
+    "title": "Mirza Ibrahim Baig - 976 / 1000 Marks",
+    "subtitle": "Intermediate BiPC Medical Stream Topper 2024",
+    "image": "",
+    "isFullPoster": false
+  },
+  {
+    "id": "topper-5",
+    "title": "Shaik Arshad - TOSS Distinction 92%",
+    "subtitle": "Telangana Open Schooling Year-Saver Topper 2024",
+    "image": "",
+    "isFullPoster": false
+  },
+  {
+    "id": "topper-6",
+    "title": "Fatima Unnisa - 9.8 GPA",
+    "subtitle": "SSC 10th Board Girls Stream Topper 2024",
+    "image": "",
+    "isFullPoster": false
+  },
+  {
+    "id": "topper-7",
+    "title": "Abdul Rahman - 962 / 1000 Marks",
+    "subtitle": "Intermediate CEC Commerce Stream Topper 2025",
+    "image": "",
+    "isFullPoster": false
+  }
+]

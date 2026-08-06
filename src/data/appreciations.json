@@ -1,0 +1,29 @@
+[
+  {
+    "id": "apprec-1",
+    "title": "Special Award Felicitation by Director Mr. Afsar Shareef",
+    "studentName": "Mohammed Zaid",
+    "achievement": "SSC 2025 Board Exam Topper (10/10 GPA)",
+    "description": "Founder & Director Mr. Afsar Shareef presenting a special token of appreciation and academic excellence award to Mohammed Zaid for achieving a perfect 10/10 GPA in the Telangana State SSC Board Examinations.",
+    "date": "2025",
+    "image": "/achievements/afsar-student-appreciation-1.jpg"
+  },
+  {
+    "id": "apprec-2",
+    "title": "Intermediate Merit Certificate & Cash Gift Presentation",
+    "studentName": "Syeda Ayesha Fatima",
+    "achievement": "Intermediate MPC Academy 1st Ranker (984/1000)",
+    "description": "Personal felicitation by Mr. Afsar Shareef honoring Syeda Ayesha Fatima for securing 984 out of 1000 marks in Intermediate MPC board exams.",
+    "date": "2025",
+    "image": ""
+  },
+  {
+    "id": "apprec-3",
+    "title": "TOSS Open Schooling Year-Saver Appreciation",
+    "studentName": "Shaik Arshad",
+    "achievement": "TOSS Board Distinction (92%)",
+    "description": "Encouraging and appreciating Shaik Arshad for clearing 10th TOSS board exams in a single attempt with 92% distinction.",
+    "date": "2024",
+    "image": ""
+  }
+]
