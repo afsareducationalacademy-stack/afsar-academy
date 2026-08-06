@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Building2, Users, Award, Image as ImageIcon, Sparkles } from "lucide-react";
-import cmsHeroSlides from "@/data/hero-slides.json";
+import localHeroSlides from "@/data/hero-slides.json";
+import { urlFor } from "@/lib/image";
 
 const categoryIconMap: Record<string, any> = {
   appreciation: Award,
@@ -11,14 +12,30 @@ const categoryIconMap: Record<string, any> = {
   students: Users,
 };
 
-export default function HeroImageCarousel() {
-  const [slides, setSlides] = useState(cmsHeroSlides);
+interface HeroSlide {
+  _id?: string;
+  id?: string;
+  title: string;
+  subtitle?: string;
+  image?: any; // can be Sanity image ref or local string path
+  tag?: string;
+  category?: string;
+  recommendedDimensions?: string;
+}
+
+interface Props {
+  slides?: HeroSlide[];
+}
+
+export default function HeroImageCarousel({ slides: propSlides }: Props) {
+  const [slides, setSlides] = useState<HeroSlide[]>(propSlides && propSlides.length > 0 ? propSlides : localHeroSlides);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    // Keep slides synced with CMS data
-    setSlides(cmsHeroSlides);
-  }, []);
+    if (propSlides && propSlides.length > 0) {
+      setSlides(propSlides);
+    }
+  }, [propSlides]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -39,7 +56,7 @@ export default function HeroImageCarousel() {
   if (!slides || slides.length === 0) return null;
 
   const activeSlide = slides[current];
-  const IconComp = categoryIconMap[activeSlide.category] || Sparkles;
+  const IconComp = categoryIconMap[activeSlide.category ?? ""] || Sparkles;
 
   return (
     <div className="relative w-full mx-auto rounded-[32px] overflow-hidden bg-slate-950 text-white shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-slate-800 group">
@@ -56,11 +73,14 @@ export default function HeroImageCarousel() {
           >
             {activeSlide.image ? (
               <img
-                src={activeSlide.image}
+                src={
+                  typeof activeSlide.image === "string"
+                    ? activeSlide.image
+                    : urlFor(activeSlide.image).width(1200).height(800).url()
+                }
                 alt={activeSlide.title}
                 className="w-full h-full object-cover object-center"
                 onError={(e) => {
-                  // If CMS image path fails, fallback to stylized CMS placeholder badge
                   (e.target as HTMLElement).style.display = "none";
                 }}
               />

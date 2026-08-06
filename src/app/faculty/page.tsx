@@ -1,15 +1,33 @@
-import facultyData from "@/data/faculty.json";
-import siteConfig from "@/data/site-config.json";
+import facultyFallback from "@/data/faculty.json";
+import siteConfigFallback from "@/data/site-config.json";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
 import MasonryGrid from "@/components/motion/MasonryGrid";
 import { GraduationCap, Award, Mail, PhoneCall, Image as ImageIcon } from "lucide-react";
+import { getFaculty, getSiteConfig } from "@/lib/queries";
+import { urlFor } from "@/lib/image";
 
 export const metadata = {
   title: "Faculty & Mentors | Afsar Educational Academy Hyderabad",
   description: "Meet the experienced, qualified faculty at Afsar Educational Academy led by Founder & Director Mr. Afsar Shareef.",
 };
 
-export default function FacultyPage() {
+export default async function FacultyPage() {
+  const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const [rawFaculty, rawSiteConfig] = isSanityConfigured
+    ? await Promise.all([
+        getFaculty().catch(() => null),
+        getSiteConfig().catch(() => null),
+      ])
+    : [null, null];
+
+  const facultyData = (rawFaculty && rawFaculty.length > 0) ? rawFaculty : facultyFallback;
+  const siteConfig = rawSiteConfig ?? siteConfigFallback;
+
+  function getFacultyPhotoUrl(fac: any): string | null {
+    if (!fac.photo) return null;
+    if (typeof fac.photo === "string") return fac.photo || null;
+    try { return urlFor(fac.photo).width(400).height(400).fit("crop").url(); } catch { return null; }
+  }
   return (
     <div className="space-y-16 pb-20">
       {/* 1. Hero */}
@@ -30,7 +48,7 @@ export default function FacultyPage() {
       {/* 2. Faculty Masonry Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MasonryGrid>
-          {facultyData.map((fac) => (
+          {(facultyData as any[]).map((fac) => (
             <div
               key={fac.id}
               className={`rounded-3xl p-8 border shadow-md hover:shadow-xl transition-all card-hover space-y-4 ${
@@ -54,22 +72,30 @@ export default function FacultyPage() {
                 </span>
               </div>
 
-              {/* Faculty Profile Photo Placeholder */}
-              <div className={`w-full h-44 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center p-3 text-center ${
-                fac.isFounder
-                  ? "border-orange/40 bg-white/5 text-white"
-                  : "border-slate-300 bg-slate-50 text-slate-700"
-              }`}>
-                <ImageIcon className="w-6 h-6 text-orange mb-1" />
-                <span className="text-xs font-bold uppercase tracking-wider">
-                  {fac.name} Headshot
-                </span>
-                <span className={`text-[11px] font-medium mt-0.5 ${
-                  fac.isFounder ? "text-orange/90" : "text-slate-500"
-                }`}>
-                  Recommended Dimensions: 400 &times; 400 px (1:1 Ratio)
-                </span>
-              </div>
+              {/* Faculty Profile Photo */}
+              {(() => {
+                const photoUrl = getFacultyPhotoUrl(fac);
+                return photoUrl ? (
+                  <div className={`w-full h-44 rounded-2xl overflow-hidden`}>
+                    <img
+                      src={photoUrl}
+                      alt={`${fac.name} photo`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                    />
+                  </div>
+                ) : (
+                  <div className={`w-full h-44 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center p-3 text-center ${
+                    fac.isFounder ? "border-orange/40 bg-white/5 text-white" : "border-slate-300 bg-slate-50 text-slate-700"
+                  }`}>
+                    <ImageIcon className="w-6 h-6 text-orange mb-1" />
+                    <span className="text-xs font-bold uppercase tracking-wider">{fac.name} Headshot</span>
+                    <span className={`text-[11px] font-medium mt-0.5 ${fac.isFounder ? "text-orange/90" : "text-slate-500"}`}>
+                      Recommended Dimensions: 400 &times; 400 px (1:1 Ratio)
+                    </span>
+                  </div>
+                );
+              })()}
 
               <div>
                 <span className={`text-xs font-bold uppercase tracking-wider ${

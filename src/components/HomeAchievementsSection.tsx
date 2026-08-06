@@ -1,12 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import toppersData from "@/data/toppers.json";
-import groupBatchesData from "@/data/group-batches.json";
+import localToppersData from "@/data/toppers.json";
+import localGroupBatchesData from "@/data/group-batches.json";
 import { Sparkles, Users, Award, Image as ImageIcon, X, ZoomIn, CheckCircle2 } from "lucide-react";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
+import { urlFor } from "@/lib/image";
 
-export default function HomeAchievementsSection() {
+interface ImageItem {
+  _id?: string;
+  id?: string;
+  title: string;
+  subtitle?: string;
+  image?: any;
+  isFullPoster?: boolean;
+  category?: string;
+}
+
+interface Props {
+  toppers?: ImageItem[];
+  groupBatches?: ImageItem[];
+}
+
+function resolveImageUrl(image: any): string | null {
+  if (!image) return null;
+  if (typeof image === "string") return image || null;
+  try { return urlFor(image).width(800).url(); } catch { return null; }
+}
+
+export default function HomeAchievementsSection({ toppers: propToppers, groupBatches: propGroupBatches }: Props) {
+  const toppersData = (propToppers && propToppers.length > 0) ? propToppers : localToppersData;
+  const groupBatchesData = (propGroupBatches && propGroupBatches.length > 0) ? propGroupBatches : localGroupBatchesData;
+
   const [activePoster, setActivePoster] = useState<{
     title: string;
     image: string;
@@ -39,29 +64,28 @@ export default function HomeAchievementsSection() {
             <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-100 to-transparent z-10 pointer-events-none" />
 
             <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] w-max">
-              {[...toppersData, ...toppersData].map((item, idx) => (
+              {[...toppersData, ...toppersData].map((item, idx) => {
+                const imgUrl = resolveImageUrl(item.image);
+                return (
                 <div
-                  key={`topper-loop-${item.id}-${idx}`}
+                  key={`topper-loop-${(item as any)._id || item.id}-${idx}`}
                   onClick={() =>
-                    item.image &&
+                    imgUrl &&
                     setActivePoster({
                       title: item.title,
-                      image: item.image,
+                      image: imgUrl,
                       subtitle: item.subtitle,
                     })
                   }
                   className={`w-64 sm:w-72 aspect-[3/4.2] shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:border-orange/60 transition-all duration-300 group cursor-pointer relative flex flex-col justify-between p-1`}
                 >
-                  {item.image ? (
-                    /* Real Single Student Poster Image */
+                  {imgUrl ? (
                     <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-100">
                       <img
-                        src={item.image}
+                        src={imgUrl}
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          (e.target as HTMLElement).style.display = "none";
-                        }}
+                        onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <div className="text-white space-y-1">
@@ -73,21 +97,14 @@ export default function HomeAchievementsSection() {
                       </div>
                     </div>
                   ) : (
-                    /* White Vertical Card Template Placeholder (Matching Image 1 Mockup) */
                     <div className="w-full h-full rounded-xl border-2 border-dashed border-slate-200 bg-white flex flex-col items-center justify-between p-5 text-center group-hover:border-orange/40 transition-colors">
                       <div className="w-12 h-12 rounded-full bg-orange-light text-orange flex items-center justify-center mt-4">
                         <Sparkles className="w-6 h-6" />
                       </div>
                       <div className="space-y-2">
-                        <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-orange bg-orange/10 px-2.5 py-0.5 rounded-full">
-                          Single Topper Poster
-                        </span>
-                        <h4 className="font-serif font-bold text-navy text-sm leading-snug">
-                          {item.title}
-                        </h4>
-                        <p className="text-xs text-slate-500 font-medium">
-                          {item.subtitle}
-                        </p>
+                        <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-orange bg-orange/10 px-2.5 py-0.5 rounded-full">Single Topper Poster</span>
+                        <h4 className="font-serif font-bold text-navy text-sm leading-snug">{item.title}</h4>
+                        <p className="text-xs text-slate-500 font-medium">{item.subtitle}</p>
                       </div>
                       <div className="w-full py-2 bg-slate-50 rounded-lg border border-slate-200 text-[11px] text-slate-400 font-medium flex items-center justify-center gap-1">
                         <ImageIcon className="w-3.5 h-3.5 text-slate-400" />
@@ -96,7 +113,8 @@ export default function HomeAchievementsSection() {
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -111,29 +129,28 @@ export default function HomeAchievementsSection() {
             <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-100 to-transparent z-10 pointer-events-none" />
 
             <div className="flex gap-6 animate-marquee-reverse hover:[animation-play-state:paused] w-max">
-              {[...groupBatchesData, ...groupBatchesData].map((item, idx) => (
+              {[...groupBatchesData, ...groupBatchesData].map((item, idx) => {
+                const imgUrl = resolveImageUrl(item.image);
+                return (
                 <div
-                  key={`group-loop-${item.id}-${idx}`}
+                  key={`group-loop-${(item as any)._id || item.id}-${idx}`}
                   onClick={() =>
-                    item.image &&
+                    imgUrl &&
                     setActivePoster({
                       title: item.title,
-                      image: item.image,
+                      image: imgUrl,
                       subtitle: item.subtitle,
                     })
                   }
                   className={`w-72 sm:w-80 aspect-[3/4.2] shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:border-orange/60 transition-all duration-300 group cursor-pointer relative flex flex-col justify-between p-1`}
                 >
-                  {item.image ? (
-                    /* Real Multi-Student or Group Poster Image */
+                  {imgUrl ? (
                     <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-100">
                       <img
-                        src={item.image}
+                        src={imgUrl}
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          (e.target as HTMLElement).style.display = "none";
-                        }}
+                        onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <div className="text-white space-y-1">
@@ -145,21 +162,14 @@ export default function HomeAchievementsSection() {
                       </div>
                     </div>
                   ) : (
-                    /* White Vertical Card Template Placeholder for Group Batches */
                     <div className="w-full h-full rounded-xl border-2 border-dashed border-slate-200 bg-white flex flex-col items-center justify-between p-5 text-center group-hover:border-orange/40 transition-colors">
                       <div className="w-12 h-12 rounded-full bg-navy/10 text-navy flex items-center justify-center mt-4">
                         <Users className="w-6 h-6" />
                       </div>
                       <div className="space-y-2">
-                        <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-navy bg-navy/5 px-2.5 py-0.5 rounded-full">
-                          Group / Multi-Student Poster
-                        </span>
-                        <h4 className="font-serif font-bold text-navy text-sm leading-snug">
-                          {item.title}
-                        </h4>
-                        <p className="text-xs text-slate-500 font-medium">
-                          {item.subtitle}
-                        </p>
+                        <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-navy bg-navy/5 px-2.5 py-0.5 rounded-full">Group / Multi-Student Poster</span>
+                        <h4 className="font-serif font-bold text-navy text-sm leading-snug">{item.title}</h4>
+                        <p className="text-xs text-slate-500 font-medium">{item.subtitle}</p>
                       </div>
                       <div className="w-full py-2 bg-slate-50 rounded-lg border border-slate-200 text-[11px] text-slate-400 font-medium flex items-center justify-center gap-1">
                         <ImageIcon className="w-3.5 h-3.5 text-slate-400" />
@@ -168,7 +178,8 @@ export default function HomeAchievementsSection() {
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

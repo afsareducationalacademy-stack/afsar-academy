@@ -17,10 +17,10 @@ import {
   Notebook,
   MapPin,
 } from "lucide-react";
-import siteConfig from "@/data/site-config.json";
-import courses from "@/data/courses.json";
-import reviews from "@/data/reviews.json";
-import stats from "@/data/stats.json";
+import siteConfigFallback from "@/data/site-config.json";
+import coursesFallback from "@/data/courses.json";
+import reviewsFallback from "@/data/reviews.json";
+import statsFallback from "@/data/stats.json";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
 import RotatingText from "@/components/motion/RotatingText";
 import HomeAchievementsSection from "@/components/HomeAchievementsSection";
@@ -29,10 +29,31 @@ import PillarsScrollStackMobile from "@/components/motion/PillarsScrollStackMobi
 import CountUp from "@/components/motion/CountUp";
 import ScrollStack from "@/components/motion/ScrollStack";
 import TestimonialsCarousel from "@/components/motion/TestimonialsCarousel";
+import { getSiteConfig, getCourses, getReviews, getStats, getHeroSlides, getTopperPosters, getGroupBatches } from "@/lib/queries";
 
 const rotatingWords = ["SSC", "Inter", "Degree", "TOSS", "BOSSE", "NIOS"];
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch from Sanity if configured, fall back to local JSON
+  const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+
+  const [rawSiteConfig, rawCourses, rawReviews, rawStats, heroSlides, topperPosters, groupBatches] = isSanityConfigured
+    ? await Promise.all([
+        getSiteConfig().catch(() => null),
+        getCourses().catch(() => null),
+        getReviews().catch(() => null),
+        getStats().catch(() => null),
+        getHeroSlides().catch(() => null),
+        getTopperPosters().catch(() => null),
+        getGroupBatches().catch(() => null),
+      ])
+    : [null, null, null, null, null, null, null];
+
+  // Null-coalesce: if Sanity returns null (empty dataset), fall back to local JSON
+  const siteConfig = rawSiteConfig ?? siteConfigFallback;
+  const courses = (rawCourses && rawCourses.length > 0) ? rawCourses : coursesFallback;
+  const reviews = (rawReviews && rawReviews.length > 0) ? rawReviews : reviewsFallback;
+  const stats = (rawStats && rawStats.length > 0) ? rawStats : statsFallback;
   return (
     <div className="pb-16">
       {/* 1. HERO SECTION (12-Column Grid Redesign) */}
@@ -142,9 +163,9 @@ export default function HomePage() {
                   <div className="flex items-center gap-1.5">
                     <div className="flex items-center text-amber-400">
                       <Star className="w-4 h-4 fill-amber-400" />
-                      <span className="font-bold text-[#1F2668] ml-1">4.9</span>
+                      <span className="font-bold text-[#1F2668] ml-1">{siteConfig.googleRating}</span>
                     </div>
-                    <span className="font-medium">(100+ Google Reviews)</span>
+                    <span className="font-medium">({siteConfig.totalGoogleReviews}+ Google Reviews)</span>
                   </div>
                   <div className="flex items-center gap-1.5 font-semibold text-[#1F2668]">
                     <GraduationCap className="w-4 h-4 text-[#F78B1F]" />
@@ -165,7 +186,7 @@ export default function HomePage() {
             {/* RIGHT SIDE CONTENT (Hero Image Slideshow) */}
             <div className="lg:col-span-5 relative mt-6 lg:mt-0 flex justify-center lg:justify-end">
               <RevealOnScroll direction="right" className="w-full">
-                <HeroImageCarousel />
+                <HeroImageCarousel slides={heroSlides} />
               </RevealOnScroll>
             </div>
 
@@ -174,14 +195,14 @@ export default function HomePage() {
       </section>
 
       {/* 2. ACHIEVEMENTS & TOPPERS SECTION (Right after Hero) */}
-      <HomeAchievementsSection />
+      <HomeAchievementsSection toppers={topperPosters} groupBatches={groupBatches} />
 
       {/* 3. STATS BAR SECTION */}
       <section className="bg-navy py-12 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-navy-light/40">
-            {stats.map((st, idx) => (
-              <RevealOnScroll key={st.id} delay={idx * 0.1} className="p-4 space-y-2">
+            {stats.map((st: any, idx: number) => (
+              <RevealOnScroll key={st._id || st.id} delay={idx * 0.1} className="p-4 space-y-2">
                 <div className="font-serif text-4xl sm:text-5xl font-extrabold text-orange tracking-tight">
                   <CountUp
                     end={st.value}
@@ -250,7 +271,7 @@ export default function HomePage() {
                 A Decade of Proven Academic Leadership in Nampally
               </h2>
               <p className="text-slate-600 text-base leading-relaxed">
-                Founded in 2014 and registered under the Government of Telangana (Regd. No. 1060/2016), Afsar Educational Academy has evolved into one of Hyderabad’s most trusted coaching centers.
+                Founded in 2014 and registered under the Government of Telangana (Regd. No. {siteConfig.registrationNo}), Afsar Educational Academy has evolved into one of Hyderabad's most trusted coaching centers.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
@@ -307,7 +328,7 @@ export default function HomePage() {
             href="/courses"
             className="px-8 py-3.5 rounded-full bg-navy hover:bg-navy-light text-white font-bold text-sm inline-flex items-center gap-2 shadow-md"
           >
-            <span>Explore All 7 Course Categories</span>
+            <span>Explore All {courses.length} Course Categories</span>
             <ArrowRight className="w-4 h-4 text-orange" />
           </Link>
         </div>
@@ -389,7 +410,7 @@ export default function HomePage() {
                     Flexible Batch Timings
                   </h3>
                   <p className="text-slate-600 text-xs leading-relaxed">
-                    Morning batches from 9:00 AM onwards & Evening batches from 5:30 PM to 10:00 PM for working & regular students.
+                    Morning batches from {siteConfig.hours?.morningBatches || "9:00 AM onwards"} & Evening batches {siteConfig.hours?.eveningBatches || "5:30 PM to 10:00 PM"} for working & regular students.
                   </p>
                 </div>
                 <span className="text-xs text-slate-500 font-semibold pt-4">Mon - Sat Batches</span>
