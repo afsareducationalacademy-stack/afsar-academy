@@ -19,27 +19,129 @@ export default defineConfig({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       structure: (S: any) =>
         S.list()
-          .title("Content Manager")
+          .title("📄 Website Pages & Sections")
           .items([
+
+            // ─── GLOBAL SITE SETTINGS ──────────────────────────────────────
             S.listItem()
-              .title("⚙️ Site Settings")
+              .title("⚙️ Global Site Settings")
               .child(
                 S.document()
                   .schemaType("siteConfig")
                   .documentId("siteConfig")
+                  .title("Site Settings — Phone, Address, Announcement Bar")
               ),
+
             S.divider(),
-            S.listItem().title("🖼️ Hero Slides").schemaType("heroSlide").child(S.documentTypeList("heroSlide")),
+
+            // ─── HOME PAGE ──────────────────────────────────────────────────
+            S.listItem()
+              .title("🏠 Home Page")
+              .child(
+                S.list()
+                  .title("🏠 Home Page Sections")
+                  .items([
+                    S.listItem()
+                      .title("🎞️ Hero Banner Slides")
+                      .schemaType("heroSlide")
+                      .child(
+                        S.documentTypeList("heroSlide")
+                          .title("Hero Banner Slides — Top of Homepage")
+                      ),
+                    S.listItem()
+                      .title("🏆 Achievements & Gallery Section")
+                      .child(
+                        S.list()
+                          .title("🏆 Achievements & Gallery")
+                          .items([
+                            S.listItem()
+                              .title("🥇 Individual Topper Posters (Marquee Row 1)")
+                              .schemaType("topperPoster")
+                              .child(
+                                S.documentTypeList("topperPoster")
+                                  .title("Topper Posters — Scrolling Marquee Row 1")
+                              ),
+                            S.listItem()
+                              .title("👥 Group Batch Photos (Marquee Row 2)")
+                              .schemaType("groupBatch")
+                              .child(
+                                S.documentTypeList("groupBatch")
+                                  .title("Group Batch Photos — Scrolling Marquee Row 2")
+                              ),
+                          ])
+                      ),
+                    S.listItem()
+                      .title("📊 Stats Bar (Years, Success Rate, Students, Rating)")
+                      .schemaType("stat")
+                      .child(
+                        S.documentTypeList("stat")
+                          .title("Stats Bar — Numbers Section on Homepage")
+                      ),
+                    S.listItem()
+                      .title("⭐ Student & Parent Reviews")
+                      .schemaType("review")
+                      .child(
+                        S.documentTypeList("review")
+                          .title("Reviews — Testimonials Carousel on Homepage")
+                      ),
+                  ])
+              ),
+
             S.divider(),
-            S.listItem().title("👨‍🏫 Faculty").schemaType("faculty").child(S.documentTypeList("faculty")),
-            S.listItem().title("📚 Courses").schemaType("course").child(S.documentTypeList("course")),
+
+            // ─── FACULTY PAGE ───────────────────────────────────────────────
+            S.listItem()
+              .title("👨‍🏫 Faculty Page")
+              .schemaType("faculty")
+              .child(
+                S.documentTypeList("faculty")
+                  .title("Faculty Members — Photos, Bio & Subjects")
+              ),
+
             S.divider(),
-            S.listItem().title("🏆 Topper Cards").schemaType("achievement").child(S.documentTypeList("achievement")),
-            S.listItem().title("🪪 Topper Posters").schemaType("topperPoster").child(S.documentTypeList("topperPoster")),
-            S.listItem().title("📸 Group Batch Photos").schemaType("groupBatch").child(S.documentTypeList("groupBatch")),
+
+            // ─── COURSES PAGE ───────────────────────────────────────────────
+            S.listItem()
+              .title("📚 Courses Page")
+              .schemaType("course")
+              .child(
+                S.documentTypeList("course")
+                  .title("Courses — SSC, Inter, TOSS, BOSSE, NIOS, Degree")
+              ),
+
             S.divider(),
-            S.listItem().title("⭐ Reviews").schemaType("review").child(S.documentTypeList("review")),
-            S.listItem().title("📊 Statistics").schemaType("stat").child(S.documentTypeList("stat")),
+
+            // ─── GALLERY PAGE ───────────────────────────────────────────────
+            S.listItem()
+              .title("🖼️ Gallery Page")
+              .child(
+                S.list()
+                  .title("🖼️ Gallery Page Content")
+                  .items([
+                    S.listItem()
+                      .title("🏅 Topper Achievement Cards (with Student Quotes)")
+                      .schemaType("achievement")
+                      .child(
+                        S.documentTypeList("achievement")
+                          .title("Topper Cards — Name, Score, Photo & Quote")
+                      ),
+                    S.listItem()
+                      .title("🥇 Individual Topper Posters")
+                      .schemaType("topperPoster")
+                      .child(
+                        S.documentTypeList("topperPoster")
+                          .title("Topper Posters — Full Designed Poster Images")
+                      ),
+                    S.listItem()
+                      .title("👥 Group Batch Photos")
+                      .schemaType("groupBatch")
+                      .child(
+                        S.documentTypeList("groupBatch")
+                          .title("Group Batch Photos — Class Group & Passing Celebrations")
+                      ),
+                  ])
+              ),
+
           ]),
     }),
   ],
