@@ -3,6 +3,7 @@
 import { useState } from "react";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
 import { MapPin, Phone, Mail, Clock, MessageCircle, CheckCircle2, Image as ImageIcon } from "lucide-react";
+import { getWhatsAppLink } from "@/lib/utils";
 
 interface Props {
   siteConfig: any;
@@ -37,7 +38,7 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
 
   const phoneDisplay: string = siteConfig.phone ?? "+91 90524 07878";
   const phoneHref = `tel:${phoneDisplay.replace(/\s+/g, "")}`;
-  const whatsappUrl: string = siteConfig.whatsappUrl ?? "https://wa.me/919052407878";
+  const whatsappUrl: string = getWhatsAppLink(siteConfig.whatsappUrl);
   const email: string = siteConfig.email ?? "afsarshareef@gmail.com";
 
   return (

@@ -1,11 +1,12 @@
 "use client";
 
 import siteConfig from "@/data/site-config.json";
+import { getWhatsAppLink } from "@/lib/utils";
 
 export default function WhatsAppButton() {
   return (
     <a
-      href={siteConfig.whatsappUrl}
+      href={getWhatsAppLink(siteConfig.whatsappUrl)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

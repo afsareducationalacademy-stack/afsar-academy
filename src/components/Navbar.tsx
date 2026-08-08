@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import siteConfig from "@/data/site-config.json";
 import Logo from "@/components/Logo";
+import { getWhatsAppLink } from "@/lib/utils";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -63,7 +64,7 @@ export default function Navbar() {
             <span className="tracking-wide">{siteConfig.phone}</span>
           </a>
           <a
-            href={siteConfig.whatsappUrl}
+            href={getWhatsAppLink(siteConfig.whatsappUrl)}
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2.5 rounded-full bg-orange hover:bg-orange-hover text-white text-sm font-extrabold shadow-md shadow-orange/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 tracking-wide"
@@ -175,7 +176,7 @@ export default function Navbar() {
               <span>Call: {siteConfig.phone}</span>
             </a>
             <a
-              href={siteConfig.whatsappUrl}
+              href={getWhatsAppLink(siteConfig.whatsappUrl)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileMenuOpen(false)}

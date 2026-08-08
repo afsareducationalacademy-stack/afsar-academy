@@ -29,6 +29,7 @@ import PillarsScrollStackMobile from "@/components/motion/PillarsScrollStackMobi
 import CountUp from "@/components/motion/CountUp";
 import ScrollStack from "@/components/motion/ScrollStack";
 import TestimonialsCarousel from "@/components/motion/TestimonialsCarousel";
+import { getWhatsAppLink } from "@/lib/utils";
 import { getSiteConfig, getCourses, getReviews, getStats, getHeroSlides, getTopperPosters, getGroupBatches } from "@/lib/queries";
 
 const rotatingWords = ["SSC", "Inter", "Degree", "TOSS", "BOSSE", "NIOS"];
@@ -151,7 +152,7 @@ export default async function HomePage() {
               <RevealOnScroll direction="up" delay={0.2}>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-3">
                   <a
-                    href={siteConfig.whatsappUrl}
+                    href={getWhatsAppLink(siteConfig.whatsappUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 py-4 rounded-xl bg-[#F78B1F] text-white font-bold text-base shadow-[0_12px_30px_rgba(247,139,31,0.22)] hover:bg-[#e07912] hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(247,139,31,0.32)] active:scale-95 transition-all text-center flex items-center justify-center gap-2 group"
@@ -546,7 +547,7 @@ export default async function HomePage() {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
             <a
-              href={siteConfig.whatsappUrl}
+              href={getWhatsAppLink(siteConfig.whatsappUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 rounded-xl bg-white text-navy hover:bg-slate-100 font-bold text-base shadow-lg transition-transform hover:scale-105"
