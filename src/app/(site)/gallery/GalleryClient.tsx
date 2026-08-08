@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
+import MasonryGrid from "@/components/motion/MasonryGrid";
 import { Image as ImageIcon, ZoomIn, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const CATEGORIES = ["All", "Classroom", "Events", "Results", "Campus"];
@@ -34,7 +35,7 @@ export default function GalleryClient({ photos }: Props) {
       ? photos
       : photos.filter((p) => p.category === activeTab);
 
-  // Close lightbox on Escape key press
+  // Close lightbox on Escape and support arrow navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (lightboxIndex === null) return;
@@ -56,45 +57,6 @@ export default function GalleryClient({ photos }: Props) {
     setLightboxIndex((prev) => (prev !== null && prev < filtered.length - 1 ? prev + 1 : 0));
   };
 
-  // Helper function to calculate bento grids
-  const getBentoSpans = (item: GalleryPhoto, index: number) => {
-    // If we're looking only at Results, make it a uniform vertical grid
-    if (activeTab === "Results") {
-      return {
-        gridClass: "col-span-1 row-span-1",
-        imageHeight: "aspect-[3/4] h-[340px] sm:h-[400px]",
-        objectFit: "object-contain bg-slate-900", // Contain is best for designed result posters to read text
-      };
-    }
-
-    // In 'All' view, Results items are taller portrait blocks
-    if (item.category === "Results") {
-      return {
-        gridClass: "col-span-1 md:row-span-2 md:col-span-1 h-full",
-        imageHeight: "h-[340px] md:h-[500px] aspect-[3/4]",
-        objectFit: "object-contain bg-slate-900",
-      };
-    }
-
-    // Bento box pattern for non-results in 'All' or other categories
-    const pattern = index % 4;
-    if (pattern === 0) {
-      // Wide item
-      return {
-        gridClass: "md:col-span-2 col-span-1",
-        imageHeight: "h-[220px] aspect-[16/10] md:aspect-[2.1/1]",
-        objectFit: "object-cover",
-      };
-    } else {
-      // Standard item
-      return {
-        gridClass: "col-span-1",
-        imageHeight: "h-[220px] aspect-square",
-        objectFit: "object-cover",
-      };
-    }
-  };
-
   return (
     <div className="space-y-12 pb-20">
       {/* 1. Hero */}
@@ -107,7 +69,7 @@ export default function GalleryClient({ photos }: Props) {
             Campus &amp; Activity Gallery
           </h1>
           <p className="text-slate-300 text-base max-w-2xl mx-auto">
-            Glimpses of our vibrant learning atmosphere, classroom sessions, toppers achievements, and student celebrations.
+            Glimpses of our vibrant learning atmosphere, toppers achievements, and student celebrations.
           </p>
         </div>
       </section>
@@ -138,7 +100,7 @@ export default function GalleryClient({ photos }: Props) {
         </div>
       </section>
 
-      {/* 3. Bento Gallery Grid */}
+      {/* 3. Masonry Gallery Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {filtered.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
@@ -147,75 +109,73 @@ export default function GalleryClient({ photos }: Props) {
             <p className="text-xs mt-1">Upload photos in Sanity Studio → Gallery Page → Gallery Photos.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 auto-rows-auto">
+          <MasonryGrid>
             {filtered.map((item, idx) => {
-              const { gridClass, imageHeight, objectFit } = getBentoSpans(item, idx);
               const fallbackGradient =
                 CATEGORY_GRADIENTS[item.category] ?? "from-navy via-slate-800 to-navy-dark";
 
-              return (
-                <RevealOnScroll
-                  key={item._id}
-                  delay={idx * 0.05}
-                  className={`${gridClass} h-full`}
-                >
-                  <div
-                    onClick={() => setLightboxIndex(idx)}
-                    className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl transition-all h-full flex flex-col justify-between card-hover group cursor-pointer"
-                  >
-                    {/* Photo Container */}
-                    <div className={`relative ${imageHeight} w-full overflow-hidden shrink-0`}>
-                      {item.imageUrl ? (
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          className={`w-full h-full ${objectFit} group-hover:scale-105 transition-transform duration-500`}
-                        />
-                      ) : (
-                        <div
-                          className={`w-full h-full bg-gradient-to-br ${fallbackGradient} flex flex-col items-center justify-center gap-2 p-6 text-center`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-orange/20 text-orange flex items-center justify-center border border-orange/30">
-                            <ImageIcon className="w-5 h-5" />
-                          </div>
-                          <span className="text-[11px] text-orange/80 font-semibold uppercase tracking-wider">
-                            Upload photo in Sanity
-                          </span>
-                        </div>
-                      )}
+              const isResults = item.category === "Results";
+              const imageHeightClass = isResults ? "aspect-[3/4] h-auto" : "h-56";
+              const imageFitClass = isResults ? "object-contain bg-slate-950" : "object-cover";
 
-                      {/* Category badge */}
-                      <div className="absolute top-3 left-3 z-10">
-                        <span className="px-3 py-1 rounded-full bg-black/60 text-orange text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm border border-white/10">
-                          {item.category}
+              return (
+                <div
+                  key={item._id}
+                  onClick={() => setLightboxIndex(idx)}
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl transition-all card-hover group cursor-pointer"
+                >
+                  {/* Photo or gradient placeholder */}
+                  <div className={`relative ${imageHeightClass} overflow-hidden w-full`}>
+                    {item.imageUrl ? (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className={`w-full h-full ${imageFitClass} group-hover:scale-105 transition-transform duration-500`}
+                      />
+                    ) : (
+                      <div
+                        className={`w-full h-full bg-gradient-to-br ${fallbackGradient} flex flex-col items-center justify-center gap-2 p-6 text-center`}
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-orange/20 text-orange flex items-center justify-center border border-orange/30">
+                          <ImageIcon className="w-5 h-5" />
+                        </div>
+                        <span className="text-[11px] text-orange/80 font-semibold uppercase tracking-wider">
+                          Upload photo in Sanity
                         </span>
                       </div>
+                    )}
 
-                      {/* Zoom icon on hover */}
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                        <ZoomIn className="w-4 h-4" />
-                      </div>
-
-                      {/* Hover overlay */}
-                      <div className="absolute inset-0 bg-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    {/* Category badge */}
+                    <div className="absolute top-3 left-3 z-10">
+                      <span className="px-3 py-1 rounded-full bg-black/60 text-orange text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm border border-white/10">
+                        {item.category}
+                      </span>
                     </div>
 
-                    {/* Content Detail Area */}
-                    <div className="p-5 flex-grow flex flex-col justify-center space-y-1">
-                      <h3 className="font-serif text-base font-bold text-navy leading-tight group-hover:text-orange transition-colors">
-                        {item.title}
-                      </h3>
-                      {item.caption && (
-                        <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">
-                          {item.caption}
-                        </p>
-                      )}
+                    {/* Zoom icon on hover */}
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <ZoomIn className="w-4 h-4" />
                     </div>
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   </div>
-                </RevealOnScroll>
+
+                  {/* Title and caption block */}
+                  <div className="p-5 space-y-1.5">
+                    <h3 className="font-serif text-base font-bold text-navy leading-tight group-hover:text-orange transition-colors">
+                      {item.title}
+                    </h3>
+                    {item.caption && (
+                      <p className="text-slate-500 text-xs leading-relaxed">
+                        {item.caption}
+                      </p>
+                    )}
+                  </div>
+                </div>
               );
             })}
-          </div>
+          </MasonryGrid>
         )}
       </section>
 
@@ -272,14 +232,14 @@ export default function GalleryClient({ photos }: Props) {
                 {filtered[lightboxIndex].title}
               </h2>
               {filtered[lightboxIndex].caption && (
-                <p className="text-slate-350 text-xs sm:text-sm">
+                <p className="text-slate-300 text-xs sm:text-sm">
                   {filtered[lightboxIndex].caption}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Mobile Swipe / Click Navigation helpers */}
+          {/* Mobile swipe/click helper buttons */}
           <div className="absolute bottom-6 flex gap-4 sm:hidden">
             <button
               onClick={handlePrev}
