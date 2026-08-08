@@ -28,7 +28,7 @@ const timeline = [
 ];
 
 export default async function AboutPage() {
-  const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const isSanityConfigured = true;
 
   const [rawSiteConfig, rawPageImages] = isSanityConfigured
     ? await Promise.all([

@@ -21,7 +21,7 @@ const placeholderItems = [
 ];
 
 export default async function GalleryPage() {
-  const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const isSanityConfigured = true;
 
   const sanityPhotos = isSanityConfigured
     ? await getGalleryPhotos().catch(() => null)

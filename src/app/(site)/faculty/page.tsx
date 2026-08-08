@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function FacultyPage() {
-  const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const isSanityConfigured = true;
   const [rawFaculty, rawSiteConfig] = isSanityConfigured
     ? await Promise.all([
         getFaculty().catch(() => null),

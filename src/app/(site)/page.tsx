@@ -36,7 +36,7 @@ const rotatingWords = ["SSC", "Inter", "Degree", "TOSS", "BOSSE", "NIOS"];
 
 export default async function HomePage() {
   // Fetch from Sanity if configured, fall back to local JSON
-  const isSanityConfigured = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const isSanityConfigured = true;
 
   const [rawSiteConfig, rawCourses, rawReviews, rawStats, heroSlides, topperPosters, groupBatches] = isSanityConfigured
     ? await Promise.all([
