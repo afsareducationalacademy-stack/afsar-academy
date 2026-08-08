@@ -19,90 +19,88 @@ export default defineConfig({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       structure: (S: any) =>
         S.list()
-          .title("📄 Website Pages & Sections")
+          .title("🌐 Website Pages")
           .items([
 
-            // ─── GLOBAL SITE SETTINGS ──────────────────────────────────────
+            // ─── 🏠 HOME PAGE ────────────────────────────────────────────────
             S.listItem()
-              .title("⚙️ Global Site Settings")
-              .child(
-                S.document()
-                  .schemaType("siteConfig")
-                  .documentId("siteConfig")
-                  .title("Site Settings — Phone, Address, Announcement Bar")
-              ),
-
-            S.divider(),
-
-            // ─── HOME PAGE ──────────────────────────────────────────────────
-            S.listItem()
-              .title("🏠 Home Page")
+              .title("🏠 Home Page  —  localhost:3000/")
               .child(
                 S.list()
                   .title("🏠 Home Page Sections")
                   .items([
+
+                    // Announcement bar + director photo live in siteConfig
+                    S.listItem()
+                      .title("📢 Announcement Bar & Director Photo")
+                      .child(
+                        S.document()
+                          .schemaType("siteConfig")
+                          .documentId("siteConfig")
+                          .title("Announcement Bar & Director Photo")
+                      ),
+
+                    S.divider(),
+
                     S.listItem()
                       .title("🎞️ Hero Banner Slides")
                       .schemaType("heroSlide")
                       .child(
                         S.documentTypeList("heroSlide")
-                          .title("Hero Banner Slides — Top of Homepage")
+                          .title("Hero Banner Slides")
                       ),
+
                     S.listItem()
-                      .title("🏆 Achievements & Gallery Section")
-                      .child(
-                        S.list()
-                          .title("🏆 Achievements & Gallery")
-                          .items([
-                            S.listItem()
-                              .title("🥇 Individual Topper Posters (Marquee Row 1)")
-                              .schemaType("topperPoster")
-                              .child(
-                                S.documentTypeList("topperPoster")
-                                  .title("Topper Posters — Scrolling Marquee Row 1")
-                              ),
-                            S.listItem()
-                              .title("👥 Group Batch Photos (Marquee Row 2)")
-                              .schemaType("groupBatch")
-                              .child(
-                                S.documentTypeList("groupBatch")
-                                  .title("Group Batch Photos — Scrolling Marquee Row 2")
-                              ),
-                          ])
-                      ),
-                    S.listItem()
-                      .title("📊 Stats Bar (Years, Success Rate, Students, Rating)")
+                      .title("📊 Stats Bar  (Years · Students · Success Rate · Rating)")
                       .schemaType("stat")
                       .child(
                         S.documentTypeList("stat")
-                          .title("Stats Bar — Numbers Section on Homepage")
+                          .title("Stats Bar Numbers")
                       ),
+
                     S.listItem()
-                      .title("⭐ Student & Parent Reviews")
+                      .title("🏆 Achievements Marquee — Topper Posters (Row 1)")
+                      .schemaType("topperPoster")
+                      .child(
+                        S.documentTypeList("topperPoster")
+                          .title("Individual Topper Posters — Marquee Row 1")
+                      ),
+
+                    S.listItem()
+                      .title("👥 Achievements Marquee — Group Batch Photos (Row 2)")
+                      .schemaType("groupBatch")
+                      .child(
+                        S.documentTypeList("groupBatch")
+                          .title("Group Batch Photos — Marquee Row 2")
+                      ),
+
+                    S.listItem()
+                      .title("⭐ Student & Parent Reviews  (Testimonials Carousel)")
                       .schemaType("review")
                       .child(
                         S.documentTypeList("review")
-                          .title("Reviews — Testimonials Carousel on Homepage")
+                          .title("Reviews — Testimonials Carousel")
                       ),
                   ])
               ),
 
             S.divider(),
 
-            // ─── FACULTY PAGE ───────────────────────────────────────────────
+            // ─── ℹ️ ABOUT PAGE ───────────────────────────────────────────────
             S.listItem()
-              .title("👨‍🏫 Faculty Page")
-              .schemaType("faculty")
+              .title("ℹ️ About Page  —  localhost:3000/about")
               .child(
-                S.documentTypeList("faculty")
-                  .title("Faculty Members — Photos, Bio & Subjects")
+                S.document()
+                  .schemaType("aboutPageImages")
+                  .documentId("aboutPageImages")
+                  .title("ℹ️ About Page — Classroom & Founder Office Photos")
               ),
 
             S.divider(),
 
-            // ─── COURSES PAGE ───────────────────────────────────────────────
+            // ─── 📚 COURSES PAGE ─────────────────────────────────────────────
             S.listItem()
-              .title("📚 Courses Page")
+              .title("📚 Courses Page  —  localhost:3000/courses")
               .schemaType("course")
               .child(
                 S.documentTypeList("course")
@@ -111,35 +109,82 @@ export default defineConfig({
 
             S.divider(),
 
-            // ─── GALLERY PAGE ───────────────────────────────────────────────
+            // ─── 👨‍🏫 FACULTY PAGE ────────────────────────────────────────────
             S.listItem()
-              .title("🖼️ Gallery Page")
+              .title("👨‍🏫 Faculty Page  —  localhost:3000/faculty")
+              .schemaType("faculty")
+              .child(
+                S.documentTypeList("faculty")
+                  .title("Faculty Members — Photos, Bio & Subjects")
+              ),
+
+            S.divider(),
+
+            // ─── 🖼️ GALLERY PAGE ─────────────────────────────────────────────
+            S.listItem()
+              .title("🖼️ Gallery Page  —  localhost:3000/gallery")
               .child(
                 S.list()
                   .title("🖼️ Gallery Page Content")
                   .items([
                     S.listItem()
-                      .title("🏅 Topper Achievement Cards (with Student Quotes)")
+                      .title("📸 Gallery Photos  (Classroom · Events · Results · Campus)")
+                      .schemaType("galleryPhoto")
+                      .child(
+                        S.documentTypeList("galleryPhoto")
+                          .title("Gallery Photos — Upload by Category")
+                      ),
+
+                    S.divider(),
+
+                    S.listItem()
+                      .title("🏅 Topper Achievement Cards  (Name · Score · Quote)")
                       .schemaType("achievement")
                       .child(
                         S.documentTypeList("achievement")
-                          .title("Topper Cards — Name, Score, Photo & Quote")
+                          .title("Topper Achievement Cards")
                       ),
+
                     S.listItem()
-                      .title("🥇 Individual Topper Posters")
+                      .title("🥇 Individual Topper Posters  (Full Poster Images)")
                       .schemaType("topperPoster")
                       .child(
                         S.documentTypeList("topperPoster")
-                          .title("Topper Posters — Full Designed Poster Images")
+                          .title("Individual Topper Posters")
                       ),
+
                     S.listItem()
-                      .title("👥 Group Batch Photos")
+                      .title("👥 Group Batch Photos  (Class & Celebration Photos)")
                       .schemaType("groupBatch")
                       .child(
                         S.documentTypeList("groupBatch")
-                          .title("Group Batch Photos — Class Group & Passing Celebrations")
+                          .title("Group Batch Photos")
                       ),
                   ])
+              ),
+
+            S.divider(),
+
+            // ─── 📞 CONTACT PAGE ───────────────────────────────────────────────
+            S.listItem()
+              .title("📞 Contact Page  —  localhost:3000/contact")
+              .child(
+                S.document()
+                  .schemaType("contactPageImages")
+                  .documentId("contactPageImages")
+                  .title("📞 Contact Page — Building Entrance Photo")
+              ),
+
+            S.divider(),
+
+            // ─── ⚙️ GLOBAL SETTINGS ──────────────────────────────────────────
+            S.listItem()
+              .title("⚙️ Global Site Settings")
+              .child(
+                S.document()
+                  .schemaType("siteConfig")
+                  .documentId("siteConfig")
+                  .title("Global Settings — All Site Configuration")
               ),
 
           ]),

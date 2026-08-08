@@ -1,4 +1,4 @@
-import { client } from "./sanity";
+import { serverClient as client } from "./sanity";
 
 // ─── Faculty ────────────────────────────────────────────────────────────────
 export async function getFaculty() {
@@ -63,6 +63,16 @@ export async function getReviews() {
   );
 }
 
+// ─── Gallery Photos ───────────────────────────────────────────────────────────
+export async function getGalleryPhotos() {
+  return client.fetch(
+    `*[_type == "galleryPhoto"] | order(order asc) {
+      _id, title, caption, category,
+      "imageUrl": image.asset->url
+    }`
+  );
+}
+
 // ─── Stats ───────────────────────────────────────────────────────────────────
 export async function getStats() {
   return client.fetch(
@@ -77,10 +87,30 @@ export async function getSiteConfig() {
   return client.fetch(
     `*[_type == "siteConfig"][0] {
       academyName, shortName, tagline, phone, whatsappUrl, email,
-      address, hours, registrationNo,
+      address, hours, registrationNo, establishedYear,
+      "directorPhoto": directorPhoto.asset->url,
       announcementBar, showAnnouncementBar,
       instagram, googleMapsEmbedUrl,
       googleRating, totalGoogleReviews, totalJustdialReviews
+    }`
+  );
+}
+
+// ─── About Page Images (singleton) ───────────────────────────────────────────
+export async function getAboutPageImages() {
+  return client.fetch(
+    `*[_type == "aboutPageImages"][0] {
+      "classroomPhoto": classroomPhoto.asset->url,
+      "founderOfficePhoto": founderOfficePhoto.asset->url
+    }`
+  );
+}
+
+// ─── Contact Page Images (singleton) ─────────────────────────────────────────
+export async function getContactPageImages() {
+  return client.fetch(
+    `*[_type == "contactPageImages"][0] {
+      "buildingPhoto": buildingPhoto.asset->url
     }`
   );
 }

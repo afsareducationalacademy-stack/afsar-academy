@@ -1,4 +1,7 @@
 import faculty from "./faculty";
+import aboutPageImages from "./aboutPageImages";
+import contactPageImages from "./contactPageImages";
+import galleryPhoto from "./galleryPhoto";
 import achievement from "./achievement";
 import topperPoster from "./topperPoster";
 import groupBatch from "./groupBatch";
@@ -18,4 +21,7 @@ export const schemaTypes = [
   review,
   stat,
   siteConfig,
+  galleryPhoto,
+  aboutPageImages,
+  contactPageImages,
 ];

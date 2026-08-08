@@ -35,6 +35,26 @@ export default defineType({
       ],
     }),
     defineField({ name: "registrationNo", title: "Registration Number", type: "string" }),
+    defineField({
+      name: "directorPhoto",
+      title: "📸 Director Photo — Homepage (600×800px, portrait)",
+      type: "image",
+    }),
+    defineField({
+      name: "founderOfficePhoto",
+      title: "📸 Founder Office/Desk Photo — About Page (600×700px)",
+      type: "image",
+    }),
+    defineField({
+      name: "classroomPhoto",
+      title: "📸 Classroom / Campus Interior Photo — About Page (800×500px)",
+      type: "image",
+    }),
+    defineField({
+      name: "buildingPhoto",
+      title: "📸 Academy Building Entrance Photo — Contact Page (800×500px)",
+      type: "image",
+    }),
     defineField({ name: "announcementBar", title: "Announcement Bar Text", type: "string" }),
     defineField({ name: "showAnnouncementBar", title: "Show Announcement Bar?", type: "boolean", initialValue: true }),
     defineField({ name: "instagram", title: "Instagram URL", type: "url" }),

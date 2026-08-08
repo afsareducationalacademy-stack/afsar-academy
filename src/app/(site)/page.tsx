@@ -50,7 +50,20 @@ export default async function HomePage() {
     : [null, null, null, null, null, null, null];
 
   // Null-coalesce: if Sanity returns null (empty dataset), fall back to local JSON
-  const siteConfig = rawSiteConfig ?? siteConfigFallback;
+  const siteConfig = rawSiteConfig
+    ? {
+        ...siteConfigFallback,
+        ...rawSiteConfig,
+        address: {
+          ...siteConfigFallback.address,
+          ...(rawSiteConfig.address || {}),
+        },
+        hours: {
+          ...siteConfigFallback.hours,
+          ...(rawSiteConfig.hours || {}),
+        },
+      }
+    : siteConfigFallback;
   const courses = (rawCourses && rawCourses.length > 0) ? rawCourses : coursesFallback;
   const reviews = (rawReviews && rawReviews.length > 0) ? rawReviews : reviewsFallback;
   const stats = (rawStats && rawStats.length > 0) ? rawStats : statsFallback;
@@ -228,35 +241,76 @@ export default async function HomePage() {
           {/* Left Feature Card */}
           <div className="lg:col-span-5">
             <RevealOnScroll direction="left">
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-xl space-y-6 relative overflow-hidden card-hover">
-                {/* Founder Portrait Photo Placeholder */}
-                <div className="w-full h-56 rounded-2xl border-2 border-dashed border-orange/40 bg-slate-900/40 flex flex-col items-center justify-center p-4 text-center">
-                  <div className="p-3 rounded-full bg-orange/10 text-orange mb-2 border border-orange/20">
-                    <ImageIcon className="w-6 h-6" />
-                  </div>
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">
-                    Mr. Afsar Shareef (Director Photo)
-                  </span>
-                  <span className="text-[11px] text-orange/90 mt-1 font-semibold">
-                    Recommended Dimensions: 600 &times; 800 px (3:4 ratio)
-                  </span>
-                </div>
+              <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden card-hover">
 
-                <div className="space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-orange">
-                    Founder's Message
+                {/* Orange accent top bar */}
+                <div className="h-1.5 w-full bg-gradient-to-r from-orange via-orange/70 to-transparent" />
+
+                {/* Founder Portrait Photo */}
+                {siteConfig.directorPhoto ? (
+                  <div className="w-full h-64 overflow-hidden">
+                    <img
+                      src={siteConfig.directorPhoto}
+                      alt="Mr. Afsar Shareef – Founder & Director, Afsar Academy"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-64 bg-navy/90 flex flex-col items-center justify-center p-4 text-center">
+                    <div className="p-3 rounded-full bg-orange/10 text-orange mb-2 border border-orange/20">
+                      <ImageIcon className="w-6 h-6" />
+                    </div>
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">
+                      Mr. Afsar Shareef (Director Photo)
+                    </span>
+                    <span className="text-[11px] text-orange/90 mt-1 font-semibold">
+                      Upload in Sanity Studio → ⚙️ Global Site Settings
+                    </span>
+                  </div>
+                )}
+
+                {/* Card Body */}
+                <div className="p-6 sm:p-8 space-y-5 bg-white">
+
+                  {/* Label */}
+                  <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-orange">
+                    Founder&apos;s Message
                   </span>
-                  <h3 className="font-serif text-2xl font-bold text-navy">
+
+                  {/* Heading */}
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy leading-snug -mt-1">
                     Building the Next Generation
                   </h3>
-                </div>
-                <p className="text-slate-600 text-sm leading-relaxed italic border-l-4 border-orange pl-4">
-                  "Education is not just about passing exams, but about building discipline, character, and lifelong confidence. At Afsar Academy, we ensure every student receives dedicated guidance to fulfill their true potential."
-                </p>
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-navy">
-                  <span>Mr. Afsar Shareef</span>
-                  <span className="text-slate-500">Founder & Director</span>
-                </div>
+
+                  {/* Quote */}
+                  <p className="text-slate-600 text-sm leading-relaxed italic border-l-4 border-orange pl-4 bg-orange/5 py-2 pr-3 rounded-r-xl">
+                    &ldquo;Education is not just about passing exams, but about building discipline, character, and lifelong confidence. At Afsar Academy, we ensure every student receives dedicated guidance to fulfill their true potential.&rdquo;
+                  </p>
+
+                  {/* Founder Signature Strip */}
+                  <div className="pt-4 mt-2 border-t-2 border-slate-100">
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      {/* Cursive name */}
+                      <div>
+                        <p className="font-cursive text-[28px] sm:text-[32px] leading-tight font-bold text-navy">
+                          Afsar Shareef
+                        </p>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="block h-0.5 w-6 rounded-full bg-orange" />
+                          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
+                            Mr. Afsar Shareef
+                          </span>
+                        </div>
+                      </div>
+                      {/* Title badge */}
+                      <span className="shrink-0 px-4 py-2 rounded-full bg-navy text-orange text-[11px] font-bold uppercase tracking-wider shadow-md">
+                        Founder &amp; Director
+                      </span>
+                    </div>
+                  </div>
+
+                </div>{/* end card body */}
+
               </div>
             </RevealOnScroll>
           </div>
@@ -500,7 +554,7 @@ export default async function HomePage() {
               Enroll Now / WhatsApp
             </a>
             <a
-              href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`}
+              href={`tel:${siteConfig.phone?.replace(/\s+/g, "") ?? ""}`}
               className="px-6 py-4 rounded-xl border-2 border-white text-white hover:bg-white/10 font-bold text-base flex items-center gap-2"
             >
               <PhoneCall className="w-5 h-5" />
