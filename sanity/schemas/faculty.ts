@@ -13,6 +13,7 @@ export default defineType({
     defineField({ name: "bio", title: "Short Bio", type: "text", rows: 3 }),
     defineField({ name: "photo", title: "Photo", type: "image", options: { hotspot: true } }),
     defineField({ name: "isFounder", title: "Is Founder?", type: "boolean", initialValue: false }),
+    defineField({ name: "isPrincipal", title: "Is Principal?", type: "boolean", initialValue: false }),
     defineField({ name: "order", title: "Display Order", type: "number", initialValue: 99 }),
   ],
   orderings: [{ title: "Display Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],

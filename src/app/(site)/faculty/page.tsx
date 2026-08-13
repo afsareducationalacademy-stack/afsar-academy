@@ -26,7 +26,7 @@ export default async function FacultyPage() {
   function getFacultyPhotoUrl(fac: any): string | null {
     if (!fac.photo) return null;
     if (typeof fac.photo === "string") return fac.photo || null;
-    try { return urlFor(fac.photo).width(400).height(400).fit("crop").url(); } catch { return null; }
+    try { return urlFor(fac.photo).width(600).url(); } catch { return null; }
   }
   return (
     <div className="space-y-16 pb-20">
@@ -48,84 +48,100 @@ export default async function FacultyPage() {
       {/* 2. Faculty Masonry Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MasonryGrid>
-          {(facultyData as any[]).map((fac) => (
+          {(facultyData as any[]).map((fac) => {
+            const isFounder = fac.isFounder;
+            const isPrincipal = fac.isPrincipal || (fac.role && fac.role.toLowerCase().includes("principal"));
+
+            return (
             <div
               key={fac.id}
-              className={`rounded-3xl p-8 border shadow-md hover:shadow-xl transition-all card-hover space-y-4 ${
-                fac.isFounder
+              className={`rounded-3xl p-6 sm:p-8 border shadow-md hover:shadow-xl transition-all card-hover flex flex-col gap-6 ${
+                isFounder
                   ? "bg-navy text-white border-navy-light/40"
+                  : isPrincipal
+                  ? "bg-orange/5 border-orange/40 shadow-orange/10"
                   : "bg-white text-slate-800 border-slate-200"
               }`}
             >
-              <div className="flex items-center justify-between">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl font-serif ${
-                  fac.isFounder ? "bg-orange text-white" : "bg-navy text-orange"
-                }`}>
-                  {fac.name.charAt(4) || "A"}
-                </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                  fac.isFounder
-                    ? "bg-orange/20 text-orange border border-orange/30"
-                    : "bg-slate-100 text-slate-700"
-                }`}>
-                  {fac.experience}
-                </span>
-              </div>
-
               {/* Faculty Profile Photo */}
               {(() => {
                 const photoUrl = getFacultyPhotoUrl(fac);
                 return photoUrl ? (
-                  <div className={`w-full h-44 rounded-2xl overflow-hidden`}>
+                  <div className={`w-full aspect-[4/5] rounded-2xl overflow-hidden ${isPrincipal ? 'ring-2 ring-orange/20 ring-offset-2' : ''}`}>
                     <img
                       src={photoUrl}
                       alt={`${fac.name} photo`}
-                      className="w-full h-full object-cover"
-                      onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                 ) : (
-                  <div className={`w-full h-44 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center p-3 text-center ${
-                    fac.isFounder ? "border-orange/40 bg-white/5 text-white" : "border-slate-300 bg-slate-50 text-slate-700"
+                  <div className={`w-full aspect-[4/5] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center p-3 text-center ${
+                    isFounder ? "border-orange/40 bg-white/5 text-white" : isPrincipal ? "border-orange/30 bg-orange/5 text-slate-700" : "border-slate-300 bg-slate-50 text-slate-700"
                   }`}>
                     <ImageIcon className="w-6 h-6 text-orange mb-1" />
                     <span className="text-xs font-bold uppercase tracking-wider">{fac.name} Headshot</span>
-                    <span className={`text-[11px] font-medium mt-0.5 ${fac.isFounder ? "text-orange/90" : "text-slate-500"}`}>
-                      Recommended Dimensions: 400 &times; 400 px (1:1 Ratio)
+                    <span className={`text-[11px] font-medium mt-0.5 ${isFounder ? "text-orange/90" : "text-slate-500"}`}>
+                      Recommended Dimensions: 400 &times; 500 px (4:5 Ratio)
                     </span>
                   </div>
                 );
               })()}
 
-              <div>
-                <span className={`text-xs font-bold uppercase tracking-wider ${
-                  fac.isFounder ? "text-orange" : "text-slate-500"
+              <div className="flex flex-col gap-4">
+                {/* Header Tags */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={`inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1.5 leading-snug rounded-md text-balance ${
+                    isFounder ? "bg-white/10 text-orange" : isPrincipal ? "bg-orange/20 text-orange-700" : "bg-slate-100 text-slate-600"
+                  }`}>
+                    {fac.role}
+                  </span>
+                  {fac.experience && (
+                    <span className={`inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-1.5 leading-snug rounded-md shrink-0 ${
+                      isFounder
+                        ? "bg-orange/20 text-orange border border-orange/30"
+                        : isPrincipal
+                        ? "bg-white text-orange-700 border border-orange/20 shadow-sm"
+                        : "bg-orange-light/60 text-orange-600 border border-orange/20"
+                    }`}>
+                      {fac.experience} Exp.
+                    </span>
+                  )}
+                </div>
+
+                {/* Name & Qualification */}
+                <div>
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-tight text-balance">
+                    {fac.name}
+                  </h3>
+                  <p className={`text-xs sm:text-sm font-semibold mt-1.5 ${
+                    isFounder ? "text-slate-300" : "text-navy/80"
+                  }`}>
+                    {fac.qualification}
+                  </p>
+                </div>
+
+                {/* Subject Badge */}
+                <div className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-start gap-2.5 ${
+                  isFounder 
+                    ? "bg-white/10 text-white border border-white/10" 
+                    : isPrincipal
+                    ? "bg-white text-navy border border-orange/30 shadow-sm"
+                    : "bg-orange-light/30 text-navy border border-orange/20"
                 }`}>
-                  {fac.role}
-                </span>
-                <h3 className="font-serif text-2xl font-bold mt-1">
-                  {fac.name}
-                </h3>
-                <p className={`text-xs font-semibold mt-0.5 ${
-                  fac.isFounder ? "text-slate-300" : "text-navy"
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange shrink-0 mt-1.5"></span>
+                  <span className="leading-snug">{fac.subject}</span>
+                </div>
+
+                {/* Bio */}
+                <p className={`text-xs sm:text-sm leading-relaxed ${
+                  isFounder ? "text-slate-300" : isPrincipal ? "text-slate-700" : "text-slate-600"
                 }`}>
-                  {fac.qualification}
+                  {fac.bio}
                 </p>
               </div>
-
-              <div className={`p-3 rounded-xl text-xs font-semibold ${
-                fac.isFounder ? "bg-white/10 text-orange" : "bg-orange-light text-orange"
-              }`}>
-                Subject: {fac.subject}
-              </div>
-
-              <p className={`text-xs leading-relaxed ${
-                fac.isFounder ? "text-slate-300" : "text-slate-600"
-              }`}>
-                {fac.bio}
-              </p>
             </div>
-          ))}
+            );
+          })}
         </MasonryGrid>
       </section>
 

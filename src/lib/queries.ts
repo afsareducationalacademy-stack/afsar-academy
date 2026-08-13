@@ -4,7 +4,7 @@ import { serverClient as client } from "./sanity";
 export async function getFaculty() {
   return client.fetch(
     `*[_type == "faculty"] | order(order asc) {
-      _id, name, role, subject, qualification, experience, bio, photo, isFounder
+      _id, name, role, subject, qualification, experience, bio, photo, isFounder, isPrincipal
     }`
   );
 }
