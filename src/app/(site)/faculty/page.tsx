@@ -1,3 +1,5 @@
+export const revalidate = 60; // ISR: re-fetch from Sanity every 60 seconds
+
 import facultyFallback from "@/data/faculty.json";
 import siteConfigFallback from "@/data/site-config.json";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
