@@ -532,12 +532,12 @@ export default async function HomePage() {
 
       {/* 7. CTA BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-orange text-white rounded-3xl p-8 sm:p-14 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="space-y-3 max-w-xl text-center md:text-left">
+        <div className="bg-orange text-white rounded-3xl p-6 sm:p-14 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
+          <div className="space-y-3 max-w-xl text-center md:text-left w-full">
             <span className="px-3.5 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
               Admissions 2026-27 Open
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+            <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-white leading-tight">
               Ready to Give Your Child the Right Foundation?
             </h2>
             <p className="text-orange-light text-sm sm:text-base">
@@ -545,18 +545,18 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 shrink-0 w-full sm:w-auto">
             <a
               href={getWhatsAppLink(siteConfig.whatsappUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-xl bg-white text-navy hover:bg-slate-100 font-bold text-base shadow-lg transition-transform hover:scale-105"
+              className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-white text-navy hover:bg-slate-100 font-bold text-sm sm:text-base shadow-lg transition-transform hover:scale-105 text-center"
             >
               Enroll Now / WhatsApp
             </a>
             <a
               href={`tel:${siteConfig.phone?.replace(/\s+/g, "") ?? ""}`}
-              className="px-6 py-4 rounded-xl border-2 border-white text-white hover:bg-white/10 font-bold text-base flex items-center gap-2"
+              className="px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl border-2 border-white text-white hover:bg-white/10 font-bold text-sm sm:text-base flex items-center justify-center gap-2"
             >
               <PhoneCall className="w-5 h-5" />
               <span>Call Us Now</span>

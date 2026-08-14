@@ -8,11 +8,11 @@ export default function AnnouncementBar() {
   if (!siteConfig.showAnnouncementBar) return null;
 
   return (
-    <div className="bg-navy text-white text-xs sm:text-sm py-2.5 px-4 relative z-30 border-b border-navy-light/30">
+    <div className="bg-navy text-white text-xs sm:text-sm py-2 px-4 relative z-30 border-b border-navy-light/30 overflow-hidden">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 mx-auto sm:mx-0">
-          <span className="w-2 h-2 rounded-full bg-orange animate-ping" />
-          <span className="font-medium tracking-wide">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="w-2 h-2 rounded-full bg-orange animate-ping shrink-0" />
+          <span className="font-medium tracking-wide truncate">
             {siteConfig.announcementBar}
           </span>
         </div>

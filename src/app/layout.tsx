@@ -21,6 +21,12 @@ const dancing = Dancing_Script({
   weight: ["400", "600", "700"],
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   title: "Afsar Educational Academy Nampally | SSC, Intermediate, TOSS, BOSSE Coaching Hyderabad",
   description:
@@ -59,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable} ${dancing.variable}`}>
-      <body>{children}</body>
+      <body className="overflow-x-hidden">{children}</body>
     </html>
   );
 }

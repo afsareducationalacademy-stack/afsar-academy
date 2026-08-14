@@ -39,7 +39,7 @@ export default function CoursesClient({ courses, siteConfig }: Props) {
           <span className="px-3.5 py-1 rounded-full bg-orange/20 text-orange text-xs font-bold uppercase tracking-wider border border-orange/30">
             Admissions Open 2026-27
           </span>
-          <h1 className="font-serif text-4xl sm:text-5xl font-extrabold text-white">
+          <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white">
             Academic Courses &amp; Programs
           </h1>
           <p className="text-slate-300 text-base max-w-2xl mx-auto">

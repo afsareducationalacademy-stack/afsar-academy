@@ -60,8 +60,8 @@ export default function HeroImageCarousel({ slides: propSlides }: Props) {
 
   return (
     <div className="relative w-full mx-auto rounded-[32px] overflow-hidden bg-slate-950 text-white shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-slate-800 group">
-      {/* Large Slide Viewport (Increased Height: 460px on mobile, 520px on desktop) */}
-      <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] bg-slate-950 overflow-hidden">
+      {/* Large Slide Viewport */}
+      <div className="relative w-full h-[300px] sm:h-[420px] lg:h-[520px] bg-slate-950 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSlide.id}

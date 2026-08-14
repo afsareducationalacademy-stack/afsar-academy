@@ -8,16 +8,15 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy text-white pt-16 pb-8 border-t border-navy-light/30">
+    <footer className="bg-navy text-white pt-12 pb-8 border-t border-navy-light/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          {/* Column 1: Brand Info */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10">
+          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-3">
               <div className="shrink-0 bg-white p-1 rounded-full shadow-md">
-                <Logo size={76} />
+                <Logo size={64} />
               </div>
-              <span className="font-serif font-bold text-lg text-white uppercase tracking-tight leading-snug">
+              <span className="font-serif font-bold text-base text-white uppercase tracking-tight leading-snug">
                 AFSAR EDUCATIONAL ACADEMY
               </span>
             </div>
@@ -85,7 +84,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-orange shrink-0" />
-                <a href={`mailto:${siteConfig.email}`} className="hover:text-white transition-colors">
+                <a href={`mailto:${siteConfig.email}`} className="hover:text-white transition-colors break-all text-xs sm:text-sm">
                   {siteConfig.email}
                 </a>
               </div>

@@ -36,18 +36,18 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200/80 shadow-md">
       {/* Top Tier: Brand Header & Main Actions */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand Logo & Title */}
-        <Link href="/" className="flex items-center gap-3.5 sm:gap-4 group shrink-0">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3.5 group min-w-0 flex-1 lg:flex-none">
           <div className="group-hover:scale-105 transition-transform duration-300 shrink-0">
-            <Logo size={64} className="w-14 h-14 sm:w-16 sm:h-16" />
+            <Logo size={64} className="w-11 h-11 sm:w-14 sm:h-14" />
           </div>
-          <div className="flex flex-col justify-center">
-            <span className="block font-serif font-black text-xl sm:text-2xl lg:text-[28px] text-navy leading-tight tracking-tight uppercase group-hover:text-orange transition-colors">
+          <div className="flex flex-col justify-center min-w-0">
+            <span className="block font-serif font-black text-sm xs:text-base sm:text-xl lg:text-[28px] text-navy leading-tight tracking-tight uppercase group-hover:text-orange transition-colors truncate">
               AFSAR EDUCATIONAL ACADEMY
             </span>
-            <span className="block text-xs sm:text-sm font-bold text-slate-500 tracking-wide mt-0.5">
-              Govt. Regd. {siteConfig.registrationNo} <span className="text-orange mx-1.5 font-extrabold">•</span> Estd : 2014
+            <span className="block text-[10px] sm:text-sm font-bold text-slate-500 tracking-wide mt-0.5">
+              Govt. Regd. {siteConfig.registrationNo} <span className="text-orange mx-1 font-extrabold">•</span> Estd : 2014
             </span>
           </div>
         </Link>
