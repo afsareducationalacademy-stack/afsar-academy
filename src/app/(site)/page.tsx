@@ -50,21 +50,26 @@ export default async function HomePage() {
       ])
     : [null, null, null, null, null, null, null];
 
-  // Null-coalesce: if Sanity returns null (empty dataset), fall back to local JSON
-  const siteConfig = rawSiteConfig
-    ? {
-        ...siteConfigFallback,
-        ...rawSiteConfig,
-        address: {
-          ...siteConfigFallback.address,
-          ...(rawSiteConfig.address || {}),
-        },
-        hours: {
-          ...siteConfigFallback.hours,
-          ...(rawSiteConfig.hours || {}),
-        },
+  // Merge Sanity config into fallback — but only overwrite fields that Sanity
+  // actually has a non-empty value for (prevents empty Sanity fields from
+  // wiping out the local JSON fallbacks like registrationNo).
+  function mergeSanity(fallback: any, sanity: any): any {
+    if (!sanity) return fallback;
+    const result = { ...fallback };
+    for (const key of Object.keys(sanity)) {
+      const val = sanity[key];
+      // keep sanity value only if it's a non-empty, non-null value
+      if (val !== null && val !== undefined && val !== "") {
+        if (typeof val === "object" && !Array.isArray(val)) {
+          result[key] = mergeSanity(fallback[key] || {}, val);
+        } else {
+          result[key] = val;
+        }
       }
-    : siteConfigFallback;
+    }
+    return result;
+  }
+  const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
   const courses = (rawCourses && rawCourses.length > 0) ? rawCourses : coursesFallback;
   const reviews = (rawReviews && rawReviews.length > 0) ? rawReviews : reviewsFallback;
   const stats = (rawStats && rawStats.length > 0) ? rawStats : statsFallback;

@@ -37,20 +37,22 @@ export default async function AboutPage() {
       ])
     : [null, null];
 
-  const siteConfig = rawSiteConfig
-    ? {
-        ...siteConfigFallback,
-        ...rawSiteConfig,
-        address: {
-          ...siteConfigFallback.address,
-          ...(rawSiteConfig.address || {}),
-        },
-        hours: {
-          ...siteConfigFallback.hours,
-          ...(rawSiteConfig.hours || {}),
-        },
+  function mergeSanity(fallback: any, sanity: any): any {
+    if (!sanity) return fallback;
+    const result = { ...fallback };
+    for (const key of Object.keys(sanity)) {
+      const val = sanity[key];
+      if (val !== null && val !== undefined && val !== "") {
+        if (typeof val === "object" && !Array.isArray(val)) {
+          result[key] = mergeSanity(fallback[key] || {}, val);
+        } else {
+          result[key] = val;
+        }
       }
-    : siteConfigFallback;
+    }
+    return result;
+  }
+  const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
   const classroomPhoto: string | null = rawPageImages?.classroomPhoto ?? null;
   const founderOfficePhoto: string | null = rawPageImages?.founderOfficePhoto ?? null;
 

@@ -63,7 +63,7 @@ export default function HomeAchievementsSection({ toppers: propToppers, groupBat
             <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-100 to-transparent z-10 pointer-events-none" />
             <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-100 to-transparent z-10 pointer-events-none" />
 
-            <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] w-max">
+            <div className="flex gap-4 sm:gap-6 animate-marquee hover:[animation-play-state:paused] w-max pl-4">
               {[...toppersData, ...toppersData].map((item, idx) => {
                 const imgUrl = resolveImageUrl(item.image);
                 return (
@@ -77,7 +77,7 @@ export default function HomeAchievementsSection({ toppers: propToppers, groupBat
                       subtitle: item.subtitle,
                     })
                   }
-                  className={`w-64 sm:w-72 aspect-[3/4.2] shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:border-orange/60 transition-all duration-300 group cursor-pointer relative flex flex-col justify-between p-1`}
+                  className={`w-52 sm:w-64 lg:w-72 aspect-[3/4.2] shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:border-orange/60 transition-all duration-300 group cursor-pointer relative flex flex-col justify-between p-1`}
                 >
                   {imgUrl ? (
                     <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-100">
@@ -128,7 +128,7 @@ export default function HomeAchievementsSection({ toppers: propToppers, groupBat
             <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-100 to-transparent z-10 pointer-events-none" />
             <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-slate-100 to-transparent z-10 pointer-events-none" />
 
-            <div className="flex gap-6 animate-marquee-reverse hover:[animation-play-state:paused] w-max">
+            <div className="flex gap-4 sm:gap-6 animate-marquee-reverse hover:[animation-play-state:paused] w-max pl-4">
               {[...groupBatchesData, ...groupBatchesData].map((item, idx) => {
                 const imgUrl = resolveImageUrl(item.image);
                 return (
@@ -142,7 +142,7 @@ export default function HomeAchievementsSection({ toppers: propToppers, groupBat
                       subtitle: item.subtitle,
                     })
                   }
-                  className={`w-72 sm:w-80 aspect-[3/4.2] shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:border-orange/60 transition-all duration-300 group cursor-pointer relative flex flex-col justify-between p-1`}
+                  className={`w-56 sm:w-72 lg:w-80 aspect-[3/4.2] shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:border-orange/60 transition-all duration-300 group cursor-pointer relative flex flex-col justify-between p-1`}
                 >
                   {imgUrl ? (
                     <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-100">
