@@ -80,6 +80,10 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
                     src={buildingPhoto}
                     alt="Afsar Academy building entrance in Nampally, Hyderabad"
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={192}
                   />
                 </div>
               ) : (
@@ -182,12 +186,15 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
                     </p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     <div>
-                      <label className="block text-xs font-bold text-slate-200 mb-1">Full Name *</label>
+                      <label htmlFor="inquiry-name" className="block text-xs font-bold text-slate-200 mb-1">Full Name *</label>
                       <input
+                        id="inquiry-name"
                         type="text"
                         required
+                        aria-required="true"
+                        autoComplete="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Enter student / parent full name"
@@ -196,10 +203,14 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-200 mb-1">Phone Number *</label>
+                      <label htmlFor="inquiry-phone" className="block text-xs font-bold text-slate-200 mb-1">Phone Number *</label>
                       <input
+                        id="inquiry-phone"
                         type="tel"
                         required
+                        aria-required="true"
+                        autoComplete="tel"
+                        inputMode="numeric"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="10-digit mobile number"
@@ -208,9 +219,11 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-200 mb-1">Email Address (Optional)</label>
+                      <label htmlFor="inquiry-email" className="block text-xs font-bold text-slate-200 mb-1">Email Address (Optional)</label>
                       <input
+                        id="inquiry-email"
                         type="email"
+                        autoComplete="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="yourname@gmail.com"
@@ -219,8 +232,10 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-200 mb-1">Interested Course / Program *</label>
+                      <label htmlFor="inquiry-course" className="block text-xs font-bold text-slate-200 mb-1">Interested Course / Program *</label>
                       <select
+                        id="inquiry-course"
+                        aria-required="true"
                         value={formData.course}
                         onChange={(e) => setFormData({ ...formData, course: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-navy-card border border-slate-700 text-white text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange"
@@ -236,8 +251,9 @@ export default function ContactClient({ siteConfig, buildingPhoto }: Props) {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-200 mb-1">Your Message / Questions</label>
+                      <label htmlFor="inquiry-message" className="block text-xs font-bold text-slate-200 mb-1">Your Message / Questions</label>
                       <textarea
+                        id="inquiry-message"
                         rows={3}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}

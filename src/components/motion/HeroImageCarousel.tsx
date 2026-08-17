@@ -30,6 +30,8 @@ interface Props {
 export default function HeroImageCarousel({ slides: propSlides }: Props) {
   const [slides, setSlides] = useState<HeroSlide[]>(propSlides && propSlides.length > 0 ? propSlides : localHeroSlides);
   const [current, setCurrent] = useState(0);
+  // Track which slide indices have been shown — preload eagerly on first view only
+  const isFirstSlide = current === 0;
 
   useEffect(() => {
     if (propSlides && propSlides.length > 0) {
@@ -80,6 +82,13 @@ export default function HeroImageCarousel({ slides: propSlides }: Props) {
                 }
                 alt={activeSlide.title}
                 className="w-full h-full object-cover object-center"
+                // fetchpriority="high" on the first/active hero image (LCP element)
+                // so the browser loads it immediately without waiting for JS
+                fetchPriority={isFirstSlide ? "high" : "low"}
+                loading={isFirstSlide ? "eager" : "lazy"}
+                decoding="async"
+                width={1200}
+                height={800}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = "none";
                 }}

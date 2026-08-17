@@ -9,6 +9,11 @@ export const metadata = {
   title: "About Us | Afsar Educational Academy Nampally Hyderabad",
   description:
     "Learn about Afsar Educational Academy, established in 2014 in Nampally, Hyderabad. Founded by Mr. Afsar Shareef to build the next generation with quality education.",
+  openGraph: {
+    title: "About Afsar Educational Academy | Est. 2014, Nampally Hyderabad",
+    description: "A decade of quality coaching in Hyderabad. SSC, Intermediate, TOSS, BOSSE, NIOS & Degree. Govt. Regd. 1060/2016.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Afsar Educational Academy" }],
+  },
 };
 
 const pillars = [
@@ -101,6 +106,10 @@ export default async function AboutPage() {
                     src={classroomPhoto}
                     alt="Classroom interior at Afsar Educational Academy"
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={192}
                   />
                 </div>
               ) : (
@@ -124,10 +133,14 @@ export default async function AboutPage() {
                 {founderOfficePhoto ? (
                   <div className="w-full h-52 rounded-2xl overflow-hidden border border-white/10">
                     <img
-                      src={founderOfficePhoto}
-                      alt="Mr. Afsar Shareef – Founder & Director"
-                      className="w-full h-full object-cover object-center"
-                    />
+                    src={founderOfficePhoto}
+                    alt="Mr. Afsar Shareef – Founder & Director"
+                    className="w-full h-full object-cover object-center"
+                    loading="lazy"
+                    decoding="async"
+                    width={600}
+                    height={208}
+                  />
                   </div>
                 ) : (
                   <div className="w-full h-52 rounded-2xl border-2 border-dashed border-orange/40 bg-white/5 flex flex-col items-center justify-center p-4 text-center">

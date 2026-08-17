@@ -7,6 +7,11 @@ export const metadata = {
   title: "Courses & Programs | Afsar Educational Academy Hyderabad",
   description:
     "Explore SSC, Intermediate, TOSS, BOSSE, NIOS and Degree coaching courses at Afsar Educational Academy, Nampally, Hyderabad.",
+  openGraph: {
+    title: "Courses & Programs | Afsar Educational Academy Hyderabad",
+    description: "SSC, Intermediate (MPC/BiPC/CEC), TOSS, BOSSE, NIOS & Degree coaching in Nampally, Hyderabad.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Afsar Educational Academy Courses" }],
+  },
 };
 
 export default async function CoursesPage() {

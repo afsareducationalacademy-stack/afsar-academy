@@ -11,6 +11,11 @@ import { urlFor } from "@/lib/image";
 export const metadata = {
   title: "Faculty & Mentors | Afsar Educational Academy Hyderabad",
   description: "Meet the experienced, qualified faculty at Afsar Educational Academy led by Founder & Director Mr. Afsar Shareef.",
+  openGraph: {
+    title: "Meet Our Faculty | Afsar Educational Academy Hyderabad",
+    description: "Expert educators with 15+ years experience in SSC, Intermediate, TOSS, BOSSE & NIOS coaching, Nampally Hyderabad.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Afsar Academy Faculty" }],
+  },
 };
 
 export default async function FacultyPage() {
@@ -74,6 +79,10 @@ export default async function FacultyPage() {
                       src={photoUrl}
                       alt={`${fac.name} photo`}
                       className="w-full h-full object-cover object-top"
+                      loading="lazy"
+                      decoding="async"
+                      width={600}
+                      height={750}
                     />
                   </div>
                 ) : (

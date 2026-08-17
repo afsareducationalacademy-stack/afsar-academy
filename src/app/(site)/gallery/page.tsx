@@ -5,6 +5,11 @@ export const metadata = {
   title: "Gallery | Afsar Educational Academy",
   description:
     "Explore photos from classrooms, events, results celebrations, and campus life at Afsar Educational Academy, Nampally, Hyderabad.",
+  openGraph: {
+    title: "Gallery | Afsar Educational Academy Nampally Hyderabad",
+    description: "Campus life, classroom sessions, results celebrations and events at Afsar Academy, Nampally, Hyderabad.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Afsar Educational Academy Gallery" }],
+  },
 };
 
 // Placeholder items shown when no photos are uploaded to Sanity yet

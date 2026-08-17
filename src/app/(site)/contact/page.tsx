@@ -8,6 +8,11 @@ export const metadata = {
   title: "Contact Us | Afsar Educational Academy Nampally Hyderabad",
   description:
     "Contact Afsar Educational Academy for admissions, course details, and batch timings. Visit us in Nampally, Aghapura, Hyderabad.",
+  openGraph: {
+    title: "Contact & Admissions | Afsar Educational Academy Hyderabad",
+    description: "Enroll now at Afsar Academy. Morning & Evening batches for SSC, Intermediate, TOSS, BOSSE, NIOS in Nampally, Hyderabad.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Afsar Educational Academy Contact" }],
+  },
 };
 
 export default async function ContactPage() {
