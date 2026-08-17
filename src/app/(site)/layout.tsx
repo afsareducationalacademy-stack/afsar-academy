@@ -95,7 +95,7 @@ export default function SiteLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizSchema) }}
       />
-      <div className="min-h-screen flex flex-col justify-between">
+      <div className="min-h-screen flex flex-col justify-between overflow-x-hidden w-full">
         <AnnouncementBar />
         <Navbar />
         <main className="grow">{children}</main>

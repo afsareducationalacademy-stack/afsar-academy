@@ -10,9 +10,9 @@ export default function AnnouncementBar() {
   return (
     <div className="bg-navy text-white text-xs sm:text-sm py-2 px-4 relative z-30 border-b border-navy-light/30 overflow-hidden">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="w-2 h-2 rounded-full bg-orange animate-ping shrink-0" />
-          <span className="font-medium tracking-wide truncate">
+        <div className="flex items-start gap-2 min-w-0 pt-0.5">
+          <span className="w-2 h-2 rounded-full bg-orange animate-ping shrink-0 mt-1.5" />
+          <span className="font-medium tracking-wide leading-relaxed">
             {siteConfig.announcementBar}
           </span>
         </div>

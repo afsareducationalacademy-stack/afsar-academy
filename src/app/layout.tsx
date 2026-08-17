@@ -28,9 +28,9 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Afsar Educational Academy Nampally | SSC, Intermediate, TOSS, BOSSE Coaching Hyderabad",
+  title: "Afsar Academy | SSC, Inter, TOSS, Degree Coaching",
   description:
-    "Afsar Educational Academy in Nampally, Hyderabad. Government registered (Regd 1060/2016). Quality coaching for Class VI-X (SSC), Inter (MPC, BiPC, CEC, MEC), TOSS, BOSSE, NIOS, and Degree.",
+    "Govt. Regd. (1060/2016) coaching in Nampally, Hyderabad. Expert classes for SSC, Inter, TOSS, BOSSE, NIOS & Degree. Join Afsar Educational Academy.",
   keywords: [
     "Afsar Educational Academy",
     "Afsar Academy Nampally",
@@ -43,10 +43,13 @@ export const metadata: Metadata = {
     "Aghapura Coaching Center"
   ],
   authors: [{ name: "Afsar Educational Academy" }],
-  metadataBase: new URL("https://afsaracademy.in"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://afsaracademy.in")
+  ),
   openGraph: {
     title: "Afsar Educational Academy | Excellence in Education",
-    description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Intermediate (MPC/BiPC/CEC), TOSS, BOSSE, NIOS & Degree. 4.9★ Google Rating.",
+    description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Inter, TOSS, BOSSE & Degree classes. 4.9★ Google Rating.",
     url: "https://afsaracademy.in",
     siteName: "Afsar Educational Academy",
     locale: "en_IN",
@@ -64,7 +67,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Afsar Educational Academy | Excellence in Education",
-    description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Intermediate, TOSS, BOSSE, NIOS & Degree. 4.9★ Google Rating.",
+    description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Inter, TOSS, BOSSE & Degree classes. 4.9★ Google Rating.",
     images: ["/og-image.jpg"],
   },
   icons: {
