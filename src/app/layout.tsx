@@ -43,13 +43,29 @@ export const metadata: Metadata = {
     "Aghapura Coaching Center"
   ],
   authors: [{ name: "Afsar Educational Academy" }],
+  metadataBase: new URL("https://afsaracademy.in"),
   openGraph: {
     title: "Afsar Educational Academy | Excellence in Education",
-    description: "Building the next generation with quality education, expert faculty, and proven results in Hyderabad.",
+    description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Intermediate (MPC/BiPC/CEC), TOSS, BOSSE, NIOS & Degree. 4.9★ Google Rating.",
     url: "https://afsaracademy.in",
     siteName: "Afsar Educational Academy",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Afsar Educational Academy – SSC, Intermediate, TOSS, BOSSE Coaching Hyderabad",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Afsar Educational Academy | Excellence in Education",
+    description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Intermediate, TOSS, BOSSE, NIOS & Degree. 4.9★ Google Rating.",
+    images: ["/og-image.jpg"],
   },
   icons: {
     icon: [{ url: "/afsaraclogo.svg", type: "image/svg+xml" }],
