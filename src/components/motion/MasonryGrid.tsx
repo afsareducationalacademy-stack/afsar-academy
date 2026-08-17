@@ -8,32 +8,41 @@ interface MasonryGridProps {
   className?: string;
 }
 
+function getColumnsForWidth(width: number): number {
+  if (width < 640) return 1;
+  if (width < 1024) return 2;
+  return 3;
+}
+
 export default function MasonryGrid({
   children,
   className = "",
 }: MasonryGridProps) {
-  const [columnsCount, setColumnsCount] = useState(3);
+  // Default to 1 (mobile-first) to match SSR output on small screens.
+  // A mounted flag prevents a flash: we only render the grid after the client
+  // has confirmed the correct column count, so there is no layout shift.
+  const [columnsCount, setColumnsCount] = useState(1);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const updateColumns = () => {
-      if (window.innerWidth < 640) {
-        setColumnsCount(1);
-      } else if (window.innerWidth < 1024) {
-        setColumnsCount(2);
-      } else {
-        setColumnsCount(3);
-      }
+      setColumnsCount(getColumnsForWidth(window.innerWidth));
     };
 
     updateColumns();
+    setMounted(true);
     window.addEventListener("resize", updateColumns);
     return () => window.removeEventListener("resize", updateColumns);
   }, []);
 
+  // While we haven't measured the viewport yet, render a single-column
+  // fallback so the page is visible immediately without any horizontal glitch.
+  const cols = mounted ? columnsCount : 1;
+
   // Distribute children into column arrays for true staggered masonry layout
-  const columns: ReactNode[][] = Array.from({ length: columnsCount }, () => []);
+  const columns: ReactNode[][] = Array.from({ length: cols }, () => []);
   children.forEach((child, index) => {
-    columns[index % columnsCount].push(child);
+    columns[index % cols].push(child);
   });
 
   return (
@@ -48,7 +57,7 @@ export default function MasonryGrid({
               viewport={{ once: true, margin: "-40px" }}
               transition={{
                 duration: 0.5,
-                delay: (colIdx + itemIdx * columnsCount) * 0.08,
+                delay: (colIdx + itemIdx * cols) * 0.08,
                 ease: "easeOut",
               }}
             >

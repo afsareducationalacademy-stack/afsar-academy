@@ -17,6 +17,7 @@
     background-color: #F8FAFC;
     color: #1E293B;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* prevent horizontal bleed during hydration on mobile */
   }
 
   h1, h2, h3, h4, .font-serif {
