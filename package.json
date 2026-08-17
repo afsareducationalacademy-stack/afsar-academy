@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sanity/client": "^7.26.2",
     "@sanity/image-url": "^2.1.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.10",
