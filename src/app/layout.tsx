@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     "Aghapura Coaching Center"
   ],
   authors: [{ name: "Afsar Educational Academy" }],
-  metadataBase: new URL("https://afsaracademy.com"),
+  metadataBase: new URL("https://www.afsaracademy.com"),
   alternates: {
     canonical: "./",
   },
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Afsar Educational Academy | Excellence in Education",
     description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Inter, TOSS, BOSSE & Degree classes. 4.9★ Google Rating.",
-    url: "https://afsaracademy.com",
+    url: "https://www.afsaracademy.com",
     siteName: "Afsar Educational Academy",
     locale: "en_IN",
     type: "website",

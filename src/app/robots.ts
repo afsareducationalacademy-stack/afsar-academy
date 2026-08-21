@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/studio/", "/api/", "/_next/static/", "/_next/image/"],
     },
-    sitemap: "https://afsaracademy.com/sitemap.xml",
+    sitemap: "https://www.afsaracademy.com/sitemap.xml",
   };
 }

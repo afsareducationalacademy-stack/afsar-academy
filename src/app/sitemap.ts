@@ -11,7 +11,7 @@ import { MetadataRoute } from "next";
 // domain, update it in exactly one place: the CANONICAL constant below.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const CANONICAL = "https://afsaracademy.com";
+const CANONICAL = "https://www.afsaracademy.com";
 
 // Use a fixed date so the sitemap is identical across builds (avoids spurious
 // cache busts).  Update this when you make significant content changes.
