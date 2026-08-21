@@ -1,66 +1,59 @@
 import { MetadataRoute } from "next";
-import { seoClient } from "@/sanity/lib/seoClient";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://afsaracademy.com";
+// ─── Static sitemap ──────────────────────────────────────────────────────────
+// Purely static — no external API calls, no async, no dependencies.
+// A static sitemap is the most reliable possible implementation:
+//   • Can never fail due to a Sanity network error at build time
+//   • Produces valid, deterministic XML every single build
+//   • Any "Sitemap could not be read" error is a deployment/DNS issue, not code
+//
+// The canonical domain is hard-coded here intentionally.  If you ever change
+// domain, update it in exactly one place: the CANONICAL constant below.
+// ─────────────────────────────────────────────────────────────────────────────
 
-  // Static site routes
-  const staticRoutes: MetadataRoute.Sitemap = [
+const CANONICAL = "https://afsaracademy.com";
+
+// Use a fixed date so the sitemap is identical across builds (avoids spurious
+// cache busts).  Update this when you make significant content changes.
+const LAST_MODIFIED = new Date("2025-01-01");
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
     {
-      url: baseUrl,
-      lastModified: new Date(),
+      url: CANONICAL,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      url: `${CANONICAL}/about`,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/courses`,
-      lastModified: new Date(),
+      url: `${CANONICAL}/courses`,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/faculty`,
-      lastModified: new Date(),
+      url: `${CANONICAL}/faculty`,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/gallery`,
-      lastModified: new Date(),
+      url: `${CANONICAL}/gallery`,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      url: `${CANONICAL}/contact`,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
   ];
-
-  try {
-    // Extract dynamic blog / post routes if defined in Sanity (with stega: false)
-    const postSlugs: string[] = await seoClient.fetch(
-      `*[_type == "post" && defined(slug.current)].slug.current`,
-      {},
-      { stega: false }
-    );
-
-    const dynamicPostRoutes: MetadataRoute.Sitemap = (postSlugs || []).map((slug) => ({
-      url: `${baseUrl}/blog/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }));
-
-    return [...staticRoutes, ...dynamicPostRoutes];
-  } catch {
-    return staticRoutes;
-  }
 }
