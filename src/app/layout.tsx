@@ -28,7 +28,10 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Afsar Academy | SSC, Inter, TOSS, Degree Coaching",
+  title: {
+    default: "Afsar Academy | SSC, Inter, TOSS, Degree Coaching in Nampally, Hyderabad",
+    template: "%s | Afsar Educational Academy",
+  },
   description:
     "Govt. Regd. (1060/2016) coaching in Nampally, Hyderabad. Expert classes for SSC, Inter, TOSS, BOSSE, NIOS & Degree. Join Afsar Educational Academy.",
   keywords: [
@@ -45,12 +48,15 @@ export const metadata: Metadata = {
   authors: [{ name: "Afsar Educational Academy" }],
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || 
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://afsaracademy.in")
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://afsaracademy.com")
   ),
+  alternates: {
+    canonical: "./",
+  },
   openGraph: {
     title: "Afsar Educational Academy | Excellence in Education",
     description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Inter, TOSS, BOSSE & Degree classes. 4.9★ Google Rating.",
-    url: "https://afsaracademy.in",
+    url: "https://afsaracademy.com",
     siteName: "Afsar Educational Academy",
     locale: "en_IN",
     type: "website",
