@@ -91,9 +91,27 @@ const nextConfig = {
         ],
       },
 
-      // ── All other routes: strict policy ────────────────────────────────────
+      // ── Sitemap & Robots: clean content-type & caching for search crawlers ──
       {
-        source: "/((?!studio).*)",
+        source: "/sitemap.xml",
+        headers: [
+          { key: "Content-Type", value: "application/xml; charset=utf-8" },
+          { key: "Cache-Control", value: "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
+      },
+      {
+        source: "/robots.txt",
+        headers: [
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+          { key: "Cache-Control", value: "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
+      },
+
+      // ── All other HTML routes: strict security policy ──────────────────────
+      {
+        source: "/((?!studio|sitemap\\.xml|robots\\.txt).*)",
         headers: [
           { key: "Content-Security-Policy", value: csp(false) },
 
