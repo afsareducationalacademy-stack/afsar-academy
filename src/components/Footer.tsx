@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, ShieldCheck } from "lucide-react";
-import siteConfig from "@/data/site-config.json";
+import siteConfigFallback from "@/data/site-config.json";
 import Logo from "@/components/Logo";
 import FooterLoveLoop from "@/components/motion/FooterLoveLoop";
 
-export default function Footer() {
+export default function Footer({ siteConfig: passedConfig }: { siteConfig?: any }) {
+  const siteConfig = passedConfig || siteConfigFallback;
   const currentYear = new Date().getFullYear();
 
   return (
@@ -74,11 +75,11 @@ export default function Footer() {
             <div className="space-y-3 text-sm text-slate-300">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-5 h-5 text-orange shrink-0 mt-0.5" />
-                <span>{siteConfig.address.full}</span>
+                <span>{siteConfig.address?.full}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-orange shrink-0" />
-                <a href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`} className="hover:text-white transition-colors">
+                <a href={`tel:${(siteConfig.phone || "").replace(/\s+/g, "")}`} className="hover:text-white transition-colors">
                   {siteConfig.phone}
                 </a>
               </div>

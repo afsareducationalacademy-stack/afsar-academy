@@ -41,7 +41,7 @@ export default async function ContactPage() {
     return result;
   }
   const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
-  const buildingPhoto: string | null = rawPageImages?.buildingPhoto ?? null;
+  const buildingPhoto: string | null = rawPageImages?.buildingPhoto || siteConfig?.buildingPhoto || null;
 
   return <ContactClient siteConfig={siteConfig} buildingPhoto={buildingPhoto} />;
 }

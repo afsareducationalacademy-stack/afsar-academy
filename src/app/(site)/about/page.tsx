@@ -58,8 +58,8 @@ export default async function AboutPage() {
     return result;
   }
   const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
-  const classroomPhoto: string | null = rawPageImages?.classroomPhoto ?? null;
-  const founderOfficePhoto: string | null = rawPageImages?.founderOfficePhoto ?? null;
+  const classroomPhoto: string | null = rawPageImages?.classroomPhoto || siteConfig?.classroomPhoto || null;
+  const founderOfficePhoto: string | null = rawPageImages?.founderOfficePhoto || siteConfig?.founderOfficePhoto || null;
 
   return (
     <div className="space-y-16 pb-20">

@@ -1,9 +1,10 @@
 "use client";
 
-import siteConfig from "@/data/site-config.json";
+import siteConfigFallback from "@/data/site-config.json";
 import { getWhatsAppLink } from "@/lib/utils";
 
-export default function WhatsAppButton() {
+export default function WhatsAppButton({ siteConfig: passedConfig }: { siteConfig?: any }) {
+  const siteConfig = passedConfig || siteConfigFallback;
   return (
     <a
       href={getWhatsAppLink(siteConfig.whatsappUrl)}

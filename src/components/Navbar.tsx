@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
-import siteConfig from "@/data/site-config.json";
+import siteConfigFallback from "@/data/site-config.json";
 import Logo from "@/components/Logo";
 import { getWhatsAppLink } from "@/lib/utils";
 
@@ -17,7 +17,8 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ siteConfig: passedConfig }: { siteConfig?: any }) {
+  const siteConfig = passedConfig || siteConfigFallback;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 

@@ -86,9 +86,12 @@ export async function getStats() {
 export async function getSiteConfig() {
   return client.fetch(
     `*[_type == "siteConfig"][0] {
-      academyName, shortName, tagline, phone, whatsappUrl, email,
+      academyName, shortName, tagline, mission, registrationGovt, phone, whatsappUrl, email,
       address, hours, registrationNo, establishedYear,
       "directorPhoto": directorPhoto.asset->url,
+      "founderOfficePhoto": founderOfficePhoto.asset->url,
+      "classroomPhoto": classroomPhoto.asset->url,
+      "buildingPhoto": buildingPhoto.asset->url,
       announcementBar, showAnnouncementBar,
       instagram, googleMapsEmbedUrl,
       googleRating, totalGoogleReviews, totalJustdialReviews

@@ -43,7 +43,7 @@ const pillarsData = [
     id: "p4",
     subtitle: "Campus Infrastructure",
     title: "Safe & Comfortable Environment",
-    description: "Clean, well-ventilated classrooms on 1st & 2nd floors above 7 Star Textiles in Aghapura, Nampally. Disciplined atmosphere for student focus.",
+    description: "Clean, well-ventilated classrooms on 1st & 2nd floors above Al Hareer Textiles in Aghapura, Nampally. Disciplined atmosphere for student focus.",
     footer: "Aghapura, Nampally Branch",
     icon: ShieldCheck,
     bgColor: "bg-white",

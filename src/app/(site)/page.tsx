@@ -488,7 +488,7 @@ export default async function HomePage() {
                     Safe & Comfortable Environment
                   </h3>
                   <p className="text-slate-600 text-xs leading-relaxed">
-                    Clean, well-ventilated classrooms on 1st & 2nd floors above 7 Star Textiles in Aghapura, Nampally. Disciplined atmosphere for student focus.
+                    Clean, well-ventilated classrooms on 1st & 2nd floors above Al Hareer Textiles in Aghapura, Nampally. Disciplined atmosphere for student focus.
                   </p>
                 </div>
                 <div className="pt-4 text-xs font-semibold text-orange">

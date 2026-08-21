@@ -1,13 +1,12 @@
-"use client";
-
-import siteConfig from "@/data/site-config.json";
+import siteConfigFallback from "@/data/site-config.json";
 import { Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-export default function AnnouncementBar() {
-  if (!siteConfig.showAnnouncementBar) return null;
+export default function AnnouncementBar({ siteConfig: passedConfig }: { siteConfig?: any }) {
+  const config = passedConfig || siteConfigFallback;
+  if (!config.showAnnouncementBar) return null;
 
-  const [announcementText, callText] = siteConfig.announcementBar.split(" | ");
+  const [announcementText, callText] = (config.announcementBar || "").split(" | ");
 
   return (
     <div className="bg-navy text-white text-[11px] sm:text-sm py-2 sm:py-2.5 px-4 relative z-30 border-b border-navy-light/30 overflow-hidden">
@@ -28,11 +27,11 @@ export default function AnnouncementBar() {
         </div>
         <div className="hidden sm:flex items-center gap-4 text-xs">
           <a
-            href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`}
+            href={`tel:${(config.phone || "").replace(/\s+/g, "")}`}
             className="flex items-center gap-1.5 hover:text-orange transition-colors"
           >
             <Phone className="w-3.5 h-3.5 text-orange" />
-            <span>{siteConfig.phone}</span>
+            <span>{config.phone}</span>
           </a>
           <span className="text-navy-light">|</span>
           <Link

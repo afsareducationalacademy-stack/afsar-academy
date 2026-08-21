@@ -2,13 +2,35 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import siteConfig from "@/data/site-config.json";
+import siteConfigFallback from "@/data/site-config.json";
+import { getSiteConfig } from "@/lib/queries";
 
-export default function SiteLayout({
+export const revalidate = 60; // ISR: refresh layout every 60 seconds
+
+function mergeSanity(fallback: any, sanity: any): any {
+  if (!sanity) return fallback;
+  const result = { ...fallback };
+  for (const key of Object.keys(sanity)) {
+    const val = sanity[key];
+    if (val !== null && val !== undefined && val !== "") {
+      if (typeof val === "object" && !Array.isArray(val)) {
+        result[key] = mergeSanity(fallback[key] || {}, val);
+      } else {
+        result[key] = val;
+      }
+    }
+  }
+  return result;
+}
+
+export default async function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const rawSiteConfig = await getSiteConfig().catch(() => null);
+  const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
+
   // Schema 1: EducationalOrganization — used by Google for knowledge graph
   const eduOrgSchema = {
     "@context": "https://schema.org",
@@ -23,16 +45,16 @@ export default function SiteLayout({
     "email": siteConfig.email,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": siteConfig.address.building + ", " + siteConfig.address.street,
-      "addressLocality": siteConfig.address.city,
-      "addressRegion": siteConfig.address.state,
-      "postalCode": siteConfig.address.pincode,
+      "streetAddress": siteConfig.address?.building + ", " + siteConfig.address?.street,
+      "addressLocality": siteConfig.address?.city,
+      "addressRegion": siteConfig.address?.state,
+      "postalCode": siteConfig.address?.pincode,
       "addressCountry": "IN"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": siteConfig.googleRating.toString(),
-      "reviewCount": siteConfig.totalGoogleReviews.toString(),
+      "ratingValue": (siteConfig.googleRating || 4.9).toString(),
+      "reviewCount": (siteConfig.totalGoogleReviews || 108).toString(),
       "bestRating": "5",
       "worstRating": "1"
     },
@@ -57,10 +79,10 @@ export default function SiteLayout({
     "paymentAccepted": "Cash, Bank Transfer",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": siteConfig.address.building + ", " + siteConfig.address.street,
-      "addressLocality": siteConfig.address.city,
-      "addressRegion": siteConfig.address.state,
-      "postalCode": siteConfig.address.pincode,
+      "streetAddress": siteConfig.address?.building + ", " + siteConfig.address?.street,
+      "addressLocality": siteConfig.address?.city,
+      "addressRegion": siteConfig.address?.state,
+      "postalCode": siteConfig.address?.pincode,
       "addressCountry": "IN"
     },
     "geo": {
@@ -78,8 +100,8 @@ export default function SiteLayout({
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": siteConfig.googleRating.toString(),
-      "reviewCount": siteConfig.totalGoogleReviews.toString(),
+      "ratingValue": (siteConfig.googleRating || 4.9).toString(),
+      "reviewCount": (siteConfig.totalGoogleReviews || 108).toString(),
       "bestRating": "5",
       "worstRating": "1"
     }
@@ -96,11 +118,11 @@ export default function SiteLayout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizSchema) }}
       />
       <div className="min-h-screen flex flex-col justify-between overflow-x-hidden w-full">
-        <AnnouncementBar />
-        <Navbar />
+        <AnnouncementBar siteConfig={siteConfig} />
+        <Navbar siteConfig={siteConfig} />
         <main className="grow">{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <Footer siteConfig={siteConfig} />
+        <WhatsAppButton siteConfig={siteConfig} />
       </div>
     </>
   );
