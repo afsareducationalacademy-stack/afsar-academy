@@ -5,7 +5,7 @@ import siteConfigFallback from "@/data/site-config.json";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
 import MasonryGrid from "@/components/motion/MasonryGrid";
 import { GraduationCap, Award, Mail, PhoneCall, Image as ImageIcon } from "lucide-react";
-import { getFaculty, getSiteConfig } from "@/lib/queries";
+import { getFaculty, getSiteConfig, getFacultyPage } from "@/lib/queries";
 import { urlFor } from "@/lib/image";
 
 export const metadata = {
@@ -20,12 +20,13 @@ export const metadata = {
 
 export default async function FacultyPage() {
   const isSanityConfigured = true;
-  const [rawFaculty, rawSiteConfig] = isSanityConfigured
+  const [rawFaculty, rawSiteConfig, rawFacultyPage] = isSanityConfigured
     ? await Promise.all([
         getFaculty().catch(() => null),
         getSiteConfig().catch(() => null),
+        getFacultyPage().catch(() => null),
       ])
-    : [null, null];
+    : [null, null, null];
 
   const facultyData = (rawFaculty && rawFaculty.length > 0) ? rawFaculty : facultyFallback;
   const siteConfig = rawSiteConfig ?? siteConfigFallback;
@@ -35,19 +36,26 @@ export default async function FacultyPage() {
     if (typeof fac.photo === "string") return fac.photo || null;
     try { return urlFor(fac.photo).width(600).url(); } catch { return null; }
   }
+
+  const heroBadge = rawFacultyPage?.heroBadge || "Expert Educators";
+  const heroTitle = rawFacultyPage?.heroTitle || "Our Qualified & Dedicated Faculty";
+  const heroSubtitle =
+    rawFacultyPage?.heroSubtitle ||
+    "Experienced mentors committed to conceptual understanding, exam preparation, and individual student success.";
+
   return (
     <div className="space-y-16 pb-20">
       {/* 1. Hero */}
       <section className="bg-navy text-white py-16 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">
           <span className="px-3.5 py-1 rounded-full bg-orange/20 text-orange text-xs font-bold uppercase tracking-wider border border-orange/30">
-            Expert Educators
+            {heroBadge}
           </span>
           <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white">
-            Our Qualified & Dedicated Faculty
+            {heroTitle}
           </h1>
           <p className="text-slate-300 text-base max-w-2xl mx-auto">
-            Experienced mentors committed to conceptual understanding, exam preparation, and individual student success.
+            {heroSubtitle}
           </p>
         </div>
       </section>

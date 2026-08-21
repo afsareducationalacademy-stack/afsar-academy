@@ -24,11 +24,18 @@ interface GalleryPhoto {
 
 interface Props {
   photos: GalleryPhoto[];
+  galleryPageData?: any;
 }
 
-export default function GalleryClient({ photos }: Props) {
+export default function GalleryClient({ photos, galleryPageData }: Props) {
   const [activeTab, setActiveTab] = useState("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const heroBadge = galleryPageData?.heroBadge || "Life at Academy";
+  const heroTitle = galleryPageData?.heroTitle || "Campus & Activity Gallery";
+  const heroSubtitle =
+    galleryPageData?.heroSubtitle ||
+    "Glimpses of our vibrant learning atmosphere, toppers achievements, and student celebrations.";
 
   const filtered =
     activeTab === "All"
@@ -63,13 +70,13 @@ export default function GalleryClient({ photos }: Props) {
       <section className="bg-navy text-white py-16 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">
           <span className="px-3.5 py-1 rounded-full bg-orange/20 text-orange text-xs font-bold uppercase tracking-wider border border-orange/30">
-            Life at Academy
+            {heroBadge}
           </span>
           <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white">
-            Campus &amp; Activity Gallery
+            {heroTitle}
           </h1>
           <p className="text-slate-300 text-base max-w-2xl mx-auto">
-            Glimpses of our vibrant learning atmosphere, toppers achievements, and student celebrations.
+            {heroSubtitle}
           </p>
         </div>
       </section>

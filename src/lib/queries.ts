@@ -1,5 +1,108 @@
 import { serverClient as client } from "./sanity";
 
+// ─── Home Page Content (singleton) ──────────────────────────────────────────
+export async function getHomePage() {
+  return client.fetch(
+    `*[_type == "homePage"][0] {
+      heroSection,
+      achievementsSection,
+      whyChooseSection {
+        badge,
+        heading,
+        description,
+        directorCard {
+          name,
+          role,
+          credentials,
+          quote,
+          "directorPhoto": directorPhoto.asset->url
+        },
+        bentoCards
+      },
+      testimonialsSection,
+      admissionsCtaSection
+    }`
+  );
+}
+
+// ─── About Page Content (singleton) ─────────────────────────────────────────
+export async function getAboutPage() {
+  return client.fetch(
+    `*[_type == "aboutPage"][0] {
+      heroSection,
+      storySection {
+        badge,
+        heading,
+        paragraph1,
+        paragraph2,
+        quoteBox,
+        "classroomPhoto": classroomPhoto.asset->url,
+        "founderOfficePhoto": founderOfficePhoto.asset->url,
+        founderVisionTitle,
+        founderVisionDescription,
+        founderVisionBadge
+      },
+      pillarsSection,
+      timelineSection,
+      accreditationSection
+    }`
+  );
+}
+
+// ─── Contact Page Content (singleton) ───────────────────────────────────────
+export async function getContactPage() {
+  return client.fetch(
+    `*[_type == "contactPage"][0] {
+      heroSection,
+      locationSection {
+        "buildingPhoto": buildingPhoto.asset->url,
+        buildingPhotoCaption,
+        addressTitle,
+        fullAddress,
+        landmark,
+        googleMapsEmbedUrl
+      },
+      contactDetails,
+      inquiryFormSection
+    }`
+  );
+}
+
+// ─── Courses Page Content (singleton) ───────────────────────────────────────
+export async function getCoursesPage() {
+  return client.fetch(
+    `*[_type == "coursesPage"][0] {
+      heroBadge,
+      heroTitle,
+      heroSubtitle,
+      ctaHeading,
+      ctaSubtitle
+    }`
+  );
+}
+
+// ─── Faculty Page Content (singleton) ───────────────────────────────────────
+export async function getFacultyPage() {
+  return client.fetch(
+    `*[_type == "facultyPage"][0] {
+      heroBadge,
+      heroTitle,
+      heroSubtitle
+    }`
+  );
+}
+
+// ─── Gallery Page Content (singleton) ───────────────────────────────────────
+export async function getGalleryPage() {
+  return client.fetch(
+    `*[_type == "galleryPage"][0] {
+      heroBadge,
+      heroTitle,
+      heroSubtitle
+    }`
+  );
+}
+
 // ─── Faculty ────────────────────────────────────────────────────────────────
 export async function getFaculty() {
   return client.fetch(
@@ -99,7 +202,7 @@ export async function getSiteConfig() {
   );
 }
 
-// ─── About Page Images (singleton) ───────────────────────────────────────────
+// ─── About Page Images (legacy singleton) ────────────────────────────────────
 export async function getAboutPageImages() {
   return client.fetch(
     `*[_type == "aboutPageImages"][0] {
@@ -109,7 +212,7 @@ export async function getAboutPageImages() {
   );
 }
 
-// ─── Contact Page Images (singleton) ─────────────────────────────────────────
+// ─── Contact Page Images (legacy singleton) ──────────────────────────────────
 export async function getContactPageImages() {
   return client.fetch(
     `*[_type == "contactPageImages"][0] {

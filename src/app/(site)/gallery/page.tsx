@@ -1,5 +1,5 @@
 import GalleryClient from "./GalleryClient";
-import { getGalleryPhotos } from "@/lib/queries";
+import { getGalleryPhotos, getGalleryPage } from "@/lib/queries";
 
 export const metadata = {
   title: "Gallery | Afsar Educational Academy",
@@ -28,12 +28,15 @@ const placeholderItems = [
 export default async function GalleryPage() {
   const isSanityConfigured = true;
 
-  const sanityPhotos = isSanityConfigured
-    ? await getGalleryPhotos().catch(() => null)
-    : null;
+  const [sanityPhotos, rawGalleryPage] = isSanityConfigured
+    ? await Promise.all([
+        getGalleryPhotos().catch(() => null),
+        getGalleryPage().catch(() => null),
+      ])
+    : [null, null];
 
   const photos =
     sanityPhotos && sanityPhotos.length > 0 ? sanityPhotos : placeholderItems;
 
-  return <GalleryClient photos={photos} />;
+  return <GalleryClient photos={photos} galleryPageData={rawGalleryPage} />;
 }

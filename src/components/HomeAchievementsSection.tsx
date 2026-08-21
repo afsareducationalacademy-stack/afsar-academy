@@ -20,6 +20,9 @@ interface ImageItem {
 interface Props {
   toppers?: ImageItem[];
   groupBatches?: ImageItem[];
+  badge?: string;
+  heading?: string;
+  description?: string;
 }
 
 function resolveImageUrl(image: any): string | null {
@@ -28,7 +31,13 @@ function resolveImageUrl(image: any): string | null {
   try { return urlFor(image).width(800).url(); } catch { return null; }
 }
 
-export default function HomeAchievementsSection({ toppers: propToppers, groupBatches: propGroupBatches }: Props) {
+export default function HomeAchievementsSection({
+  toppers: propToppers,
+  groupBatches: propGroupBatches,
+  badge,
+  heading,
+  description,
+}: Props) {
   const toppersData = (propToppers && propToppers.length > 0) ? propToppers : localToppersData;
   const groupBatchesData = (propGroupBatches && propGroupBatches.length > 0) ? propGroupBatches : localGroupBatchesData;
 
@@ -41,14 +50,19 @@ export default function HomeAchievementsSection({ toppers: propToppers, groupBat
   return (
     <section className="py-12 sm:py-16 bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 relative overflow-hidden border-y border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        {/* Section Title Header (Matching Image 1 Mockup) */}
+        {/* Section Title Header */}
         <RevealOnScroll direction="up">
           <div className="text-center max-w-3xl mx-auto space-y-3">
+            {badge && (
+              <span className="px-3.5 py-1 rounded-full bg-orange-light text-orange text-xs font-bold uppercase tracking-wider">
+                {badge}
+              </span>
+            )}
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-              Our Achievements & Gallery
+              {heading || "Our Achievements & Gallery"}
             </h2>
             <p className="text-slate-500 text-base sm:text-lg font-medium leading-relaxed max-w-xl mx-auto">
-              A glimpse into our academic environment, student achievements, and passed out student batches.
+              {description || "A glimpse into our academic environment, student achievements, and passed out student batches."}
             </p>
           </div>
         </RevealOnScroll>

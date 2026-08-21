@@ -30,16 +30,32 @@ import CountUp from "@/components/motion/CountUp";
 import ScrollStack from "@/components/motion/ScrollStack";
 import TestimonialsCarousel from "@/components/motion/TestimonialsCarousel";
 import { getWhatsAppLink } from "@/lib/utils";
-import { getSiteConfig, getCourses, getReviews, getStats, getHeroSlides, getTopperPosters, getGroupBatches } from "@/lib/queries";
-
-const rotatingWords = ["SSC", "Inter", "Degree", "TOSS", "BOSSE", "NIOS"];
+import {
+  getHomePage,
+  getSiteConfig,
+  getCourses,
+  getReviews,
+  getStats,
+  getHeroSlides,
+  getTopperPosters,
+  getGroupBatches,
+} from "@/lib/queries";
 
 export default async function HomePage() {
-  // Fetch from Sanity if configured, fall back to local JSON
   const isSanityConfigured = true;
 
-  const [rawSiteConfig, rawCourses, rawReviews, rawStats, heroSlides, topperPosters, groupBatches] = isSanityConfigured
+  const [
+    rawHomePage,
+    rawSiteConfig,
+    rawCourses,
+    rawReviews,
+    rawStats,
+    heroSlides,
+    topperPosters,
+    groupBatches,
+  ] = isSanityConfigured
     ? await Promise.all([
+        getHomePage().catch(() => null),
         getSiteConfig().catch(() => null),
         getCourses().catch(() => null),
         getReviews().catch(() => null),
@@ -48,17 +64,13 @@ export default async function HomePage() {
         getTopperPosters().catch(() => null),
         getGroupBatches().catch(() => null),
       ])
-    : [null, null, null, null, null, null, null];
+    : [null, null, null, null, null, null, null, null];
 
-  // Merge Sanity config into fallback — but only overwrite fields that Sanity
-  // actually has a non-empty value for (prevents empty Sanity fields from
-  // wiping out the local JSON fallbacks like registrationNo).
   function mergeSanity(fallback: any, sanity: any): any {
     if (!sanity) return fallback;
     const result = { ...fallback };
     for (const key of Object.keys(sanity)) {
       const val = sanity[key];
-      // keep sanity value only if it's a non-empty, non-null value
       if (val !== null && val !== undefined && val !== "") {
         if (typeof val === "object" && !Array.isArray(val)) {
           result[key] = mergeSanity(fallback[key] || {}, val);
@@ -69,24 +81,49 @@ export default async function HomePage() {
     }
     return result;
   }
+
   const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
-  const courses = (rawCourses && rawCourses.length > 0) ? rawCourses : coursesFallback;
-  const reviews = (rawReviews && rawReviews.length > 0) ? rawReviews : reviewsFallback;
-  const stats = (rawStats && rawStats.length > 0) ? rawStats : statsFallback;
+  const courses = rawCourses && rawCourses.length > 0 ? rawCourses : coursesFallback;
+  const reviews = rawReviews && rawReviews.length > 0 ? rawReviews : reviewsFallback;
+  const stats = rawStats && rawStats.length > 0 ? rawStats : statsFallback;
+
+  // Dynamic Homepage Content with built-in rich fallbacks
+  const hero = rawHomePage?.heroSection;
+  const rotatingWords =
+    hero?.rotatingWords && hero.rotatingWords.length > 0
+      ? hero.rotatingWords
+      : ["SSC", "Inter", "Degree", "TOSS", "BOSSE", "NIOS"];
+  const featureChips =
+    hero?.featureChips && hero.featureChips.length > 0
+      ? hero.featureChips
+      : [
+          "Morning & Evening Batches",
+          "Experienced Faculty",
+          "Govt Registered",
+          "10+ Years Excellence",
+          "Personal Mentorship",
+          "Affordable Fees",
+        ];
+
+  const whyChoose = rawHomePage?.whyChooseSection;
+  const director = whyChoose?.directorCard;
+  const directorPhoto = director?.directorPhoto || siteConfig.directorPhoto || null;
+
+  const reviewsSection = rawHomePage?.testimonialsSection;
+  const ctaSection = rawHomePage?.admissionsCtaSection;
+
   return (
     <div className="pb-16">
-      {/* 1. HERO SECTION (12-Column Grid Redesign) */}
+      {/* 1. HERO SECTION */}
       <section className="relative overflow-hidden bg-[#FAFAFC] pt-8 pb-12 lg:pt-12 lg:pb-16 flex items-center border-b border-slate-200/60">
-        {/* Subtle Radial Gradient Accents (Opacity < 8%) */}
+        {/* Subtle Radial Gradient Accents */}
         <div className="absolute -top-24 -left-24 w-[500px] h-[500px] bg-[#F78B1F]/[0.06] rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/3 -right-24 w-[550px] h-[550px] bg-[#1F2668]/[0.06] rounded-full blur-3xl pointer-events-none" />
-
-        {/* 3 Heavily Blurred Circles */}
         <div className="absolute top-10 left-1/3 w-72 h-72 bg-[#F78B1F]/[0.04] rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#1F2668]/[0.05] rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/2 left-10 w-96 h-96 bg-white/60 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Floating Academic Decorative Icons (Very low opacity) */}
+        {/* Floating Academic Icons */}
         <div className="absolute top-16 left-12 opacity-10 text-[#1F2668] pointer-events-none hidden sm:block">
           <Book className="w-8 h-8" />
         </div>
@@ -102,46 +139,41 @@ export default async function HomePage() {
 
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            
-            {/* LEFT SIDE CONTENT (55% -> 7 Cols) */}
+            {/* LEFT SIDE CONTENT */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              
               {/* Top Badge */}
               <RevealOnScroll direction="down">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#F78B1F] text-[#1F2668] text-xs sm:text-sm font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.05)]">
                   <ShieldCheck className="w-4 h-4 text-[#F78B1F]" />
-                  <span>Govt. Registered ({siteConfig.registrationNo}) • Estd. 2014</span>
+                  <span>
+                    {hero?.badgeText ||
+                      `Govt. Registered (${siteConfig.registrationNo}) • Estd. ${siteConfig.establishedYear || "2014"}`}
+                  </span>
                 </div>
               </RevealOnScroll>
 
               {/* Main Heading */}
               <RevealOnScroll direction="up">
                 <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1F2668] leading-[1.1] tracking-tight">
-                  Excellence in{" "}
+                  {hero?.headingPrefix || "Excellence in"}{" "}
                   <RotatingText words={rotatingWords} interval={2200} />
                   <br />
-                  Education
+                  {hero?.headingSuffix || "Education"}
                 </h1>
               </RevealOnScroll>
 
               {/* Description */}
               <RevealOnScroll direction="up" delay={0.1}>
                 <p className="text-[#4A5568] text-base sm:text-[18px] max-w-[620px] leading-relaxed">
-                  Join one of Hyderabad's trusted educational academies offering quality education, experienced faculty, disciplined learning, and excellent academic results for students preparing for their future.
+                  {hero?.description ||
+                    "Join one of Hyderabad's trusted educational academies offering quality education, experienced faculty, disciplined learning, and excellent academic results for students preparing for their future."}
                 </p>
               </RevealOnScroll>
 
               {/* Feature Chips */}
               <RevealOnScroll direction="up" delay={0.15}>
                 <div className="flex flex-wrap gap-2.5 pt-1">
-                  {[
-                    "Morning & Evening Batches",
-                    "Experienced Faculty",
-                    "Govt Registered",
-                    "10+ Years Excellence",
-                    "Personal Mentorship",
-                    "Affordable Fees",
-                  ].map((chip, idx) => (
+                  {featureChips.map((chip: string, idx: number) => (
                     <span
                       key={idx}
                       className="px-3.5 py-1.5 rounded-full bg-white border border-slate-200/80 text-xs font-semibold text-[#1F2668] shadow-[0_8px_20px_rgba(0,0,0,0.05)] flex items-center gap-1.5"
@@ -162,7 +194,7 @@ export default async function HomePage() {
                     rel="noopener noreferrer"
                     className="px-8 py-4 rounded-xl bg-[#F78B1F] text-white font-bold text-base shadow-[0_12px_30px_rgba(247,139,31,0.22)] hover:bg-[#e07912] hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(247,139,31,0.32)] active:scale-95 transition-all text-center flex items-center justify-center gap-2 group"
                   >
-                    <span>Enroll Now</span>
+                    <span>{hero?.ctaPrimaryText || "Enroll Now"}</span>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
 
@@ -171,7 +203,7 @@ export default async function HomePage() {
                     className="px-8 py-4 rounded-xl bg-white border-2 border-[#1F2668] text-[#1F2668] hover:bg-[#1F2668] hover:text-white font-bold text-base shadow-sm transition-all text-center flex items-center justify-center gap-2"
                   >
                     <BookOpen className="w-5 h-5" />
-                    <span>View Courses</span>
+                    <span>{hero?.ctaSecondaryText || "View Courses"}</span>
                   </Link>
                 </div>
               </RevealOnScroll>
@@ -182,9 +214,13 @@ export default async function HomePage() {
                   <div className="flex items-center gap-1.5">
                     <div className="flex items-center text-amber-400">
                       <Star className="w-4 h-4 fill-amber-400" />
-                      <span className="font-bold text-[#1F2668] ml-1">{siteConfig.googleRating}</span>
+                      <span className="font-bold text-[#1F2668] ml-1">
+                        {siteConfig.googleRating || 4.9}
+                      </span>
                     </div>
-                    <span className="font-medium">({siteConfig.totalGoogleReviews}+ Google Reviews)</span>
+                    <span className="font-medium">
+                      ({siteConfig.totalGoogleReviews || 108}+ Google Reviews)
+                    </span>
                   </div>
                   <div className="flex items-center gap-1.5 font-semibold text-[#1F2668]">
                     <GraduationCap className="w-4 h-4 text-[#F78B1F]" />
@@ -202,32 +238,37 @@ export default async function HomePage() {
               </RevealOnScroll>
             </div>
 
-            {/* RIGHT SIDE CONTENT (Hero Image Slideshow) */}
+            {/* RIGHT SIDE CONTENT (Hero Slideshow) */}
             <div className="lg:col-span-5 relative mt-6 lg:mt-0 flex justify-center lg:justify-end">
               <RevealOnScroll direction="right" className="w-full">
                 <HeroImageCarousel slides={heroSlides} />
               </RevealOnScroll>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* 2. ACHIEVEMENTS & TOPPERS SECTION (Right after Hero) */}
-      <HomeAchievementsSection toppers={topperPosters} groupBatches={groupBatches} />
+      {/* 2. ACHIEVEMENTS & TOPPERS SECTION */}
+      <HomeAchievementsSection
+        toppers={topperPosters}
+        groupBatches={groupBatches}
+        badge={rawHomePage?.achievementsSection?.badge}
+        heading={rawHomePage?.achievementsSection?.heading}
+        description={rawHomePage?.achievementsSection?.description}
+      />
 
       {/* 3. STATS BAR SECTION */}
       <section className="bg-navy py-12 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-navy-light/40">
             {stats.map((st: any, idx: number) => (
-              <RevealOnScroll key={st._id || st.id} delay={idx * 0.1} className="p-4 space-y-2">
+              <RevealOnScroll
+                key={st._id || st.id || idx}
+                delay={idx * 0.1}
+                className="p-4 space-y-2"
+              >
                 <div className="font-serif text-4xl sm:text-5xl font-extrabold text-orange tracking-tight">
-                  <CountUp
-                    end={st.value}
-                    suffix={st.suffix}
-                    isDecimal={st.isDecimal}
-                  />
+                  <CountUp end={st.value} suffix={st.suffix} isDecimal={st.isDecimal} />
                 </div>
                 <h4 className="font-semibold text-white text-base sm:text-lg">
                   {st.label}
@@ -241,23 +282,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3. EDITORIAL ABOUT PREVIEW */}
+      {/* 4. EDITORIAL ABOUT PREVIEW & DIRECTOR CARD */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Feature Card */}
           <div className="lg:col-span-5">
             <RevealOnScroll direction="left">
               <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden card-hover">
-
-                {/* Orange accent top bar */}
                 <div className="h-1.5 w-full bg-gradient-to-r from-orange via-orange/70 to-transparent" />
 
-                {/* Founder Portrait Photo */}
-                {siteConfig.directorPhoto ? (
+                {directorPhoto ? (
                   <div className="w-full h-64 overflow-hidden">
                     <img
-                      src={siteConfig.directorPhoto}
-                      alt="Mr. Afsar Shareef – Founder & Director, Afsar Academy"
+                      src={directorPhoto}
+                      alt={`${director?.name || "Mr. Afsar Shareef"} – Founder & Director, Afsar Academy`}
                       className="w-full h-full object-cover object-center"
                     />
                   </div>
@@ -267,56 +305,51 @@ export default async function HomePage() {
                       <ImageIcon className="w-6 h-6" />
                     </div>
                     <span className="text-xs font-bold text-white uppercase tracking-wider">
-                      Mr. Afsar Shareef (Director Photo)
+                      {director?.name || "Mr. Afsar Shareef"} (Director Photo)
                     </span>
                     <span className="text-[11px] text-orange/90 mt-1 font-semibold">
-                      Upload in Sanity Studio → ⚙️ Global Site Settings
+                      Upload in Sanity Studio → 🏠 Home Page → Director Card
                     </span>
                   </div>
                 )}
 
-                {/* Card Body */}
                 <div className="p-6 sm:p-8 space-y-5 bg-white">
-
-                  {/* Label */}
-                  <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-orange">
-                    Founder&apos;s Message
-                  </span>
-
-                  {/* Heading */}
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy leading-snug -mt-1">
-                    Building the Next Generation
-                  </h3>
-
-                  {/* Quote */}
-                  <p className="text-slate-600 text-sm leading-relaxed italic border-l-4 border-orange pl-4 bg-orange/5 py-2 pr-3 rounded-r-xl">
-                    &ldquo;Education is not just about passing exams, but about building discipline, character, and lifelong confidence. At Afsar Academy, we ensure every student receives dedicated guidance to fulfill their true potential.&rdquo;
-                  </p>
-
-                  {/* Founder Signature Strip */}
-                  <div className="pt-4 mt-2 border-t-2 border-slate-100">
-                    <div className="flex items-center justify-between gap-3 flex-wrap">
-                      {/* Cursive name */}
-                      <div>
-                        <p className="font-cursive text-[28px] sm:text-[32px] leading-tight font-bold text-navy">
-                          Afsar Shareef
-                        </p>
-                        <div className="flex items-center gap-1.5 mt-0.5">
-                          <span className="block h-0.5 w-6 rounded-full bg-orange" />
-                          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
-                            Mr. Afsar Shareef
-                          </span>
-                        </div>
-                      </div>
-                      {/* Title badge */}
-                      <span className="shrink-0 px-4 py-2 rounded-full bg-navy text-orange text-[11px] font-bold uppercase tracking-wider shadow-md">
-                        Founder &amp; Director
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-orange" />
+                      <span className="text-xs font-bold uppercase tracking-widest text-orange">
+                        Academic Leadership
                       </span>
                     </div>
+                    <h3 className="font-serif text-2xl font-bold text-navy leading-snug">
+                      {director?.name || "Mr. Afsar Shareef"}
+                    </h3>
+                    <p className="text-xs font-bold text-slate-500">
+                      {director?.credentials || "M.Sc (Maths), B.Ed • 15+ Years Experience"}
+                    </p>
                   </div>
 
-                </div>{/* end card body */}
+                  <blockquote className="text-slate-600 text-sm italic leading-relaxed border-l-2 border-orange/40 pl-4 py-1">
+                    &ldquo;{director?.quote || "Our goal is not just to teach subjects, but to build academic discipline, conceptual clarity, and confidence that lasts a lifetime."}&rdquo;
+                  </blockquote>
 
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      <p className="font-cursive text-[28px] sm:text-[32px] leading-tight font-bold text-navy">
+                        Afsar Shareef
+                      </p>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="block h-0.5 w-6 rounded-full bg-orange" />
+                        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
+                          {director?.name || "Mr. Afsar Shareef"}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="shrink-0 px-4 py-2 rounded-full bg-navy text-orange text-[11px] font-bold uppercase tracking-wider shadow-md">
+                      {director?.role || "Founder & Academic Director"}
+                    </span>
+                  </div>
+                </div>
               </div>
             </RevealOnScroll>
           </div>
@@ -325,13 +358,14 @@ export default async function HomePage() {
           <div className="lg:col-span-7 space-y-6">
             <RevealOnScroll direction="right">
               <span className="px-3.5 py-1.5 rounded-full bg-orange-light text-orange text-xs font-bold tracking-wide">
-                Why Afsar Academy
+                {whyChoose?.badge || "Why Choose Us"}
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy leading-tight">
-                A Decade of Proven Academic Leadership in Nampally
+                {whyChoose?.heading || "Comprehensive Educational Support in Nampally"}
               </h2>
               <p className="text-slate-600 text-base leading-relaxed">
-                Founded in 2014 and registered under the Government of Telangana (Regd. No. {siteConfig.registrationNo}), Afsar Educational Academy has evolved into one of Hyderabad's most trusted coaching centers.
+                {whyChoose?.description ||
+                  `Founded in ${siteConfig.establishedYear || "2014"} and registered under the Government of Telangana (Regd. No. ${siteConfig.registrationNo}), Afsar Educational Academy has evolved into one of Hyderabad's most trusted coaching centers.`}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
@@ -341,7 +375,10 @@ export default async function HomePage() {
                   { title: "Dedicated Faculty", desc: "Experienced subject specialists with 10+ years exp." },
                   { title: "Proven Success", desc: "Consistent top grades in Board & Open Schooling exams." },
                 ].map((pillar, pIdx) => (
-                  <div key={pIdx} className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1">
+                  <div
+                    key={pIdx}
+                    className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1"
+                  >
                     <div className="flex items-center gap-2 text-navy font-bold text-sm">
                       <CheckCircle2 className="w-4 h-4 text-orange" />
                       <span>{pillar.title}</span>
@@ -358,7 +395,7 @@ export default async function HomePage() {
                   href="/about"
                   className="inline-flex items-center gap-2 text-orange font-bold hover:underline text-sm"
                 >
-                  <span>Read Our Full Story & Milestones</span>
+                  <span>Read Our Full Story &amp; Milestones</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -367,7 +404,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 4. COURSES PREVIEW (Scroll Stack) */}
+      {/* 5. COURSES SCROLL STACK */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <RevealOnScroll className="text-center space-y-3 max-w-2xl mx-auto">
           <span className="px-3.5 py-1.5 rounded-full bg-navy text-white text-xs font-bold tracking-wide">
@@ -381,161 +418,155 @@ export default async function HomePage() {
           </p>
         </RevealOnScroll>
 
-        <ScrollStack courses={courses.slice(0, 5)} />
+        <div className="hidden md:block">
+          <ScrollStack courses={courses} />
+        </div>
 
-        <div className="text-center pt-6">
-          <Link
-            href="/courses"
-            className="px-8 py-3.5 rounded-full bg-navy hover:bg-navy-light text-white font-bold text-sm inline-flex items-center gap-2 shadow-md"
-          >
-            <span>Explore All {courses.length} Course Categories</span>
-            <ArrowRight className="w-4 h-4 text-orange" />
-          </Link>
+        <div className="md:hidden">
+          <PillarsScrollStackMobile />
         </div>
       </section>
 
-      {/* 5. WHY CHOOSE US (Bento Grid) */}
-      <section className="bg-slate-100/70 py-16 border-y border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <RevealOnScroll className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="px-3.5 py-1.5 rounded-full bg-orange-light text-orange text-xs font-bold tracking-wide">
-              Academy Advantages
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy">
-              5 Pillars of Future-Ready Learning
-            </h2>
-          </RevealOnScroll>
-
-          {/* Mobile Only: Sticky ScrollStack */}
-          <PillarsScrollStackMobile />
-
-          {/* Desktop & Tablet Only: Bento Grid (hidden md:grid) */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Bento Card 1 (Span 2 Cols) */}
-            <RevealOnScroll className="md:col-span-2">
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-orange/10 text-orange flex items-center justify-center font-bold">
-                    <GraduationCap className="w-6 h-6" />
-                  </div>
-                  <span className="text-xs font-bold text-orange uppercase tracking-wider">
-                    Open Schooling Specialization
-                  </span>
-                  <h3 className="font-serif text-2xl font-bold text-navy">
-                    TOSS, BOSSE & NIOS Direct Guidance
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    Year-saving options for students needing flexible board exams. Full assistance for enrollment, Tutor Marked Assignments (TMA), practicals, and preparation.
-                  </p>
+      {/* 6. BENTO CARDS (Desktop Grid) */}
+      <section className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[280px]">
+          {/* Card 1 */}
+          <RevealOnScroll className="md:col-span-2">
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-orange-light text-orange flex items-center justify-center font-bold">
+                  <Sparkles className="w-6 h-6" />
                 </div>
-                <div className="flex flex-wrap gap-2 pt-6">
-                  {["Telangana Open School (TOSS)", "BOSSE Sikkim", "NIOS Govt. of India"].map((b, i) => (
-                    <span key={i} className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">
+                <span className="text-xs font-bold text-orange uppercase tracking-wider">
+                  Open Schooling Specialization
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-navy">
+                  TOSS, BOSSE &amp; NIOS Direct Guidance
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Year-saving options for students needing flexible board exams. Full assistance for enrollment, Tutor Marked Assignments (TMA), practicals, and preparation.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-6">
+                {["Telangana Open School (TOSS)", "BOSSE Sikkim", "NIOS Govt. of India"].map(
+                  (b, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium"
+                    >
                       ✓ {b}
                     </span>
-                  ))}
-                </div>
+                  )
+                )}
               </div>
-            </RevealOnScroll>
+            </div>
+          </RevealOnScroll>
 
-            {/* Bento Card 2 */}
-            <RevealOnScroll delay={0.1}>
-              <div className="bg-navy text-white rounded-3xl p-8 border border-navy-light/40 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-orange text-white flex items-center justify-center font-bold">
-                    <Users className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold text-white">
-                    Qualified Subject Faculties
-                  </h3>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    M.Sc, M.Com, and M.A qualified educators with over a decade of dedicated teaching experience in Hyderabad.
-                  </p>
+          {/* Card 2 */}
+          <RevealOnScroll delay={0.1}>
+            <div className="bg-navy text-white rounded-3xl p-8 border border-navy-light/40 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-orange text-white flex items-center justify-center font-bold">
+                  <Users className="w-6 h-6" />
                 </div>
-                <Link href="/faculty" className="text-xs text-orange font-bold hover:underline pt-4 flex items-center gap-1">
-                  <span>Meet Our Faculty</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                <h3 className="font-serif text-xl font-bold text-white">
+                  Qualified Subject Faculties
+                </h3>
+                <p className="text-slate-300 text-xs leading-relaxed">
+                  M.Sc, M.Com, and M.A qualified educators with over a decade of dedicated teaching experience in Hyderabad.
+                </p>
               </div>
-            </RevealOnScroll>
+              <Link
+                href="/faculty"
+                className="text-xs text-orange font-bold hover:underline pt-4 flex items-center gap-1"
+              >
+                <span>Meet Our Faculty</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </RevealOnScroll>
 
-            {/* Bento Card 3 */}
-            <RevealOnScroll delay={0.2}>
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-navy/10 text-navy flex items-center justify-center font-bold">
-                    <Clock className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold text-navy">
-                    Flexible Batch Timings
-                  </h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Morning batches from {siteConfig.hours?.morningBatches || "9:00 AM onwards"} & Evening batches {siteConfig.hours?.eveningBatches || "5:30 PM to 10:00 PM"} for working & regular students.
-                  </p>
+          {/* Card 3 */}
+          <RevealOnScroll delay={0.2}>
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-navy/10 text-navy flex items-center justify-center font-bold">
+                  <Clock className="w-6 h-6" />
                 </div>
-                <span className="text-xs text-slate-500 font-semibold pt-4">Mon - Sat Batches</span>
+                <h3 className="font-serif text-xl font-bold text-navy">
+                  Flexible Batch Timings
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  Morning batches from {siteConfig.hours?.morningBatches || "9:00 AM onwards"} &amp; Evening batches {siteConfig.hours?.eveningBatches || "5:30 PM to 10:00 PM"} for working &amp; regular students.
+                </p>
               </div>
-            </RevealOnScroll>
+              <span className="text-xs text-slate-500 font-semibold pt-4">Mon - Sat Batches</span>
+            </div>
+          </RevealOnScroll>
 
-            {/* Bento Card 4 */}
-            <RevealOnScroll delay={0.3}>
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-orange-light text-orange flex items-center justify-center font-bold">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold text-navy">
-                    Safe & Comfortable Environment
-                  </h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Clean, well-ventilated classrooms on 1st & 2nd floors above Al Hareer Textiles in Aghapura, Nampally. Disciplined atmosphere for student focus.
-                  </p>
+          {/* Card 4 */}
+          <RevealOnScroll delay={0.3}>
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-orange-light text-orange flex items-center justify-center font-bold">
+                  <ShieldCheck className="w-6 h-6" />
                 </div>
-                <div className="pt-4 text-xs font-semibold text-orange">
-                  Aghapura, Nampally Branch
-                </div>
+                <h3 className="font-serif text-xl font-bold text-navy">
+                  Safe &amp; Comfortable Environment
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  Clean, well-ventilated classrooms on 1st &amp; 2nd floors above Al Hareer Textiles in Aghapura, Nampally. Disciplined atmosphere for student focus.
+                </p>
               </div>
-            </RevealOnScroll>
+              <div className="pt-4 text-xs font-semibold text-orange">
+                Aghapura, Nampally Branch
+              </div>
+            </div>
+          </RevealOnScroll>
 
-            {/* Bento Card 5 */}
-            <RevealOnScroll delay={0.4}>
-              <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-navy/10 text-navy flex items-center justify-center font-bold">
-                    <Award className="w-6 h-6 text-navy" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold text-navy">
-                    Daily Mock Tests & Exam Drills
-                  </h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Chapter-wise model assessments, previous 10-year solved papers, and individual doubt-clearing sessions to maximize board exam scores.
-                  </p>
+          {/* Card 5 */}
+          <RevealOnScroll delay={0.4}>
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-navy/10 text-navy flex items-center justify-center font-bold">
+                  <Award className="w-6 h-6 text-navy" />
                 </div>
-                <div className="pt-4 text-xs font-semibold text-emerald-600 flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>100% Board Exam Guidance</span>
-                </div>
+                <h3 className="font-serif text-xl font-bold text-navy">
+                  Daily Mock Tests &amp; Exam Drills
+                </h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  Chapter-wise model assessments, previous 10-year solved papers, and individual doubt-clearing sessions to maximize board exam scores.
+                </p>
               </div>
-            </RevealOnScroll>
-          </div>
+              <div className="pt-4 text-xs font-semibold text-emerald-600 flex items-center gap-1">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>100% Board Exam Guidance</span>
+              </div>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS CAROUSEL */}
+      {/* 7. TESTIMONIALS CAROUSEL */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <RevealOnScroll className="text-center space-y-3 max-w-2xl mx-auto">
           <span className="px-3.5 py-1.5 rounded-full bg-navy text-white text-xs font-bold tracking-wide">
-            Student & Parent Reviews
+            {reviewsSection?.badge || "Student & Parent Reviews"}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-navy">
-            Trusted by 500+ Families in Hyderabad
+            {reviewsSection?.heading || "Trusted by 500+ Families in Hyderabad"}
           </h2>
+          {reviewsSection?.description && (
+            <p className="text-slate-600 text-sm max-w-2xl mx-auto">
+              {reviewsSection.description}
+            </p>
+          )}
         </RevealOnScroll>
 
         <TestimonialsCarousel reviews={reviews} />
       </section>
 
-      {/* 7. CTA BANNER */}
+      {/* 8. CTA BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-orange text-white rounded-3xl p-6 sm:p-14 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
           <div className="space-y-3 max-w-xl text-center md:text-left w-full">
@@ -543,10 +574,11 @@ export default async function HomePage() {
               Admissions 2026-27 Open
             </span>
             <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-white leading-tight">
-              Ready to Give Your Child the Right Foundation?
+              {ctaSection?.heading || "Ready to Give Your Child the Right Foundation?"}
             </h2>
             <p className="text-orange-light text-sm sm:text-base">
-              Enroll today in SSC, Intermediate, TOSS, BOSSE, or Degree coaching at Afsar Educational Academy.
+              {ctaSection?.subtitle ||
+                "Enroll today in SSC, Intermediate, TOSS, BOSSE, or Degree coaching at Afsar Educational Academy."}
             </p>
           </div>
 
@@ -557,14 +589,14 @@ export default async function HomePage() {
               rel="noopener noreferrer"
               className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-white text-navy hover:bg-slate-100 font-bold text-sm sm:text-base shadow-lg transition-transform hover:scale-105 text-center"
             >
-              Enroll Now / WhatsApp
+              {ctaSection?.buttonText || "Enroll Now / WhatsApp"}
             </a>
             <a
               href={`tel:${siteConfig.phone?.replace(/\s+/g, "") ?? ""}`}
               className="px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl border-2 border-white text-white hover:bg-white/10 font-bold text-sm sm:text-base flex items-center justify-center gap-2"
             >
               <PhoneCall className="w-5 h-5" />
-              <span>Call Us Now</span>
+              <span>{ctaSection?.phoneText || "Call Us Now"}</span>
             </a>
           </div>
         </div>

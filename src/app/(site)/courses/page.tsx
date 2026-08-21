@@ -1,7 +1,7 @@
 import CoursesClient from "./CoursesClient";
 import coursesFallback from "@/data/courses.json";
 import siteConfigFallback from "@/data/site-config.json";
-import { getCourses, getSiteConfig } from "@/lib/queries";
+import { getCourses, getSiteConfig, getCoursesPage } from "@/lib/queries";
 
 export const metadata = {
   title: "Courses & Programs | Afsar Educational Academy Hyderabad",
@@ -17,16 +17,23 @@ export const metadata = {
 export default async function CoursesPage() {
   const isSanityConfigured = true;
 
-  const [rawCourses, rawSiteConfig] = isSanityConfigured
+  const [rawCourses, rawSiteConfig, rawCoursesPage] = isSanityConfigured
     ? await Promise.all([
         getCourses().catch(() => null),
         getSiteConfig().catch(() => null),
+        getCoursesPage().catch(() => null),
       ])
-    : [null, null];
+    : [null, null, null];
 
   const courses =
     rawCourses && rawCourses.length > 0 ? rawCourses : coursesFallback;
   const siteConfig = rawSiteConfig ?? siteConfigFallback;
 
-  return <CoursesClient courses={courses} siteConfig={siteConfig} />;
+  return (
+    <CoursesClient
+      courses={courses}
+      siteConfig={siteConfig}
+      coursesPageData={rawCoursesPage}
+    />
+  );
 }

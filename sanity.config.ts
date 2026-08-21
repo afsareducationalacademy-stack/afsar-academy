@@ -19,7 +19,7 @@ export default defineConfig({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       structure: (S: any) =>
         S.list()
-          .title("🌐 Website Pages")
+          .title("🌐 Website Pages & Content")
           .items([
 
             // ─── 🏠 HOME PAGE ────────────────────────────────────────────────
@@ -29,15 +29,13 @@ export default defineConfig({
                 S.list()
                   .title("🏠 Home Page Sections")
                   .items([
-
-                    // Announcement bar + director photo live in siteConfig
                     S.listItem()
-                      .title("📢 Announcement Bar & Director Photo")
+                      .title("📝 Main Home Page Content (Hero, Bento Cards, Headings & CTA)")
                       .child(
                         S.document()
-                          .schemaType("siteConfig")
-                          .documentId("siteConfig")
-                          .title("Announcement Bar & Director Photo")
+                          .schemaType("homePage")
+                          .documentId("homePage")
+                          .title("Home Page Sections & Text Content")
                       ),
 
                     S.divider(),
@@ -51,7 +49,7 @@ export default defineConfig({
                       ),
 
                     S.listItem()
-                      .title("📊 Stats Bar  (Years · Students · Success Rate · Rating)")
+                      .title("📊 Stats Bar (Years · Students · Success Rate · Rating)")
                       .schemaType("stat")
                       .child(
                         S.documentTypeList("stat")
@@ -75,7 +73,7 @@ export default defineConfig({
                       ),
 
                     S.listItem()
-                      .title("⭐ Student & Parent Reviews  (Testimonials Carousel)")
+                      .title("⭐ Student & Parent Reviews (Testimonials Carousel)")
                       .schemaType("review")
                       .child(
                         S.documentTypeList("review")
@@ -91,9 +89,9 @@ export default defineConfig({
               .title("ℹ️ About Page  —  localhost:3000/about")
               .child(
                 S.document()
-                  .schemaType("aboutPageImages")
-                  .documentId("aboutPageImages")
-                  .title("ℹ️ About Page — Classroom & Founder Office Photos")
+                  .schemaType("aboutPage")
+                  .documentId("aboutPage")
+                  .title("ℹ️ About Page — Story, Vision, Pillars & Milestones")
               ),
 
             S.divider(),
@@ -101,10 +99,27 @@ export default defineConfig({
             // ─── 📚 COURSES PAGE ─────────────────────────────────────────────
             S.listItem()
               .title("📚 Courses Page  —  localhost:3000/courses")
-              .schemaType("course")
               .child(
-                S.documentTypeList("course")
-                  .title("Courses — SSC, Inter, TOSS, BOSSE, NIOS, Degree")
+                S.list()
+                  .title("📚 Courses Page Content")
+                  .items([
+                    S.listItem()
+                      .title("📝 Courses Page Banner & Counseling Box")
+                      .child(
+                        S.document()
+                          .schemaType("coursesPage")
+                          .documentId("coursesPage")
+                          .title("Courses Page Banner & Counseling Settings")
+                      ),
+                    S.divider(),
+                    S.listItem()
+                      .title("📋 All Courses & Programs (SSC, Inter, TOSS, BOSSE, NIOS, Degree)")
+                      .schemaType("course")
+                      .child(
+                        S.documentTypeList("course")
+                          .title("Courses — Full Curriculum & Timings")
+                      ),
+                  ])
               ),
 
             S.divider(),
@@ -112,10 +127,27 @@ export default defineConfig({
             // ─── 👨‍🏫 FACULTY PAGE ────────────────────────────────────────────
             S.listItem()
               .title("👨‍🏫 Faculty Page  —  localhost:3000/faculty")
-              .schemaType("faculty")
               .child(
-                S.documentTypeList("faculty")
-                  .title("Faculty Members — Photos, Bio & Subjects")
+                S.list()
+                  .title("👨‍🏫 Faculty Page Content")
+                  .items([
+                    S.listItem()
+                      .title("📝 Faculty Page Banner")
+                      .child(
+                        S.document()
+                          .schemaType("facultyPage")
+                          .documentId("facultyPage")
+                          .title("Faculty Page Banner Settings")
+                      ),
+                    S.divider(),
+                    S.listItem()
+                      .title("👥 Faculty Directory (Photos, Bio, Subjects & Qualifications)")
+                      .schemaType("faculty")
+                      .child(
+                        S.documentTypeList("faculty")
+                          .title("Faculty Members")
+                      ),
+                  ])
               ),
 
             S.divider(),
@@ -128,17 +160,26 @@ export default defineConfig({
                   .title("🖼️ Gallery Page Content")
                   .items([
                     S.listItem()
-                      .title("📸 Gallery Photos  (Classroom · Events · Results · Campus)")
+                      .title("📝 Gallery Page Banner")
+                      .child(
+                        S.document()
+                          .schemaType("galleryPage")
+                          .documentId("galleryPage")
+                          .title("Gallery Page Banner Settings")
+                      ),
+
+                    S.divider(),
+
+                    S.listItem()
+                      .title("📸 Gallery Photos (Classroom · Events · Results · Campus)")
                       .schemaType("galleryPhoto")
                       .child(
                         S.documentTypeList("galleryPhoto")
                           .title("Gallery Photos — Upload by Category")
                       ),
 
-                    S.divider(),
-
                     S.listItem()
-                      .title("🏅 Topper Achievement Cards  (Name · Score · Quote)")
+                      .title("🏅 Topper Achievement Cards (Name · Score · Quote)")
                       .schemaType("achievement")
                       .child(
                         S.documentTypeList("achievement")
@@ -146,7 +187,7 @@ export default defineConfig({
                       ),
 
                     S.listItem()
-                      .title("🥇 Individual Topper Posters  (Full Poster Images)")
+                      .title("🥇 Individual Topper Posters (Full Poster Images)")
                       .schemaType("topperPoster")
                       .child(
                         S.documentTypeList("topperPoster")
@@ -154,7 +195,7 @@ export default defineConfig({
                       ),
 
                     S.listItem()
-                      .title("👥 Group Batch Photos  (Class & Celebration Photos)")
+                      .title("👥 Group Batch Photos (Class & Celebration Photos)")
                       .schemaType("groupBatch")
                       .child(
                         S.documentTypeList("groupBatch")
@@ -170,16 +211,16 @@ export default defineConfig({
               .title("📞 Contact Page  —  localhost:3000/contact")
               .child(
                 S.document()
-                  .schemaType("contactPageImages")
-                  .documentId("contactPageImages")
-                  .title("📞 Contact Page — Building Entrance Photo")
+                  .schemaType("contactPage")
+                  .documentId("contactPage")
+                  .title("📞 Contact Page — Address, Timings, Building Photo & Form")
               ),
 
             S.divider(),
 
             // ─── ⚙️ GLOBAL SETTINGS ──────────────────────────────────────────
             S.listItem()
-              .title("⚙️ Global Site Settings")
+              .title("⚙️ Global Site Settings (Navbar, Footer, Announcement Bar, Phone & Address)")
               .child(
                 S.document()
                   .schemaType("siteConfig")

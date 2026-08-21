@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import RevealOnScroll from "@/components/motion/RevealOnScroll";
-import { BookOpen, CheckCircle2, Award, Clock, MessageCircle } from "lucide-react";
+import { BookOpen, CheckCircle2, Award, Clock, MessageCircle, PhoneCall } from "lucide-react";
+import { getWhatsAppLink } from "@/lib/utils";
 
 const CATEGORIES = ["All", "SSC", "Intermediate", "Open Schooling", "Degree"];
 
@@ -21,9 +22,10 @@ interface Course {
 interface Props {
   courses: Course[];
   siteConfig: any;
+  coursesPageData?: any;
 }
 
-export default function CoursesClient({ courses, siteConfig }: Props) {
+export default function CoursesClient({ courses, siteConfig, coursesPageData }: Props) {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredCourses =
@@ -31,20 +33,29 @@ export default function CoursesClient({ courses, siteConfig }: Props) {
       ? courses
       : courses.filter((c) => c.category === activeCategory);
 
+  const heroBadge = coursesPageData?.heroBadge || "Admissions Open 2026-27";
+  const heroTitle = coursesPageData?.heroTitle || "Academic Courses & Programs";
+  const heroSubtitle =
+    coursesPageData?.heroSubtitle ||
+    "Explore our comprehensive curriculum tailored for Board Exam Excellence, Open Schooling success, and Degree level coaching.";
+  const ctaHeading =
+    coursesPageData?.ctaHeading || "Need Guidance on Selecting the Right Course or Board?";
+  const ctaSubtitle =
+    coursesPageData?.ctaSubtitle ||
+    "Speak directly with Director Mr. Afsar Shareef to get personalised academic counseling for SSC, Inter, TOSS, BOSSE, or NIOS.";
+
   return (
     <div className="space-y-12 pb-20">
       {/* 1. Page Hero */}
       <section className="bg-navy text-white py-16 sm:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">
           <span className="px-3.5 py-1 rounded-full bg-orange/20 text-orange text-xs font-bold uppercase tracking-wider border border-orange/30">
-            Admissions Open 2026-27
+            {heroBadge}
           </span>
           <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white">
-            Academic Courses &amp; Programs
+            {heroTitle}
           </h1>
-          <p className="text-slate-300 text-base max-w-2xl mx-auto">
-            Explore our comprehensive curriculum tailored for Board Exam Excellence, Open Schooling success, and Degree level coaching.
-          </p>
+          <p className="text-slate-300 text-base max-w-2xl mx-auto">{heroSubtitle}</p>
         </div>
       </section>
 
@@ -58,10 +69,10 @@ export default function CoursesClient({ courses, siteConfig }: Props) {
                 key={cat}
                 id={`course-filter-${cat.toLowerCase().replace(/\s+/g, "-")}`}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                className={`px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                   isActive
-                    ? "bg-orange text-white shadow-md scale-105"
-                    : "text-slate-600 hover:text-navy hover:bg-white"
+                    ? "bg-orange text-white shadow-md shadow-orange/20 scale-105"
+                    : "bg-white text-slate-700 hover:bg-slate-50 border border-slate-200"
                 }`}
               >
                 {cat}
@@ -71,48 +82,46 @@ export default function CoursesClient({ courses, siteConfig }: Props) {
         </div>
       </section>
 
-      {/* 3. Course Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* 3. Course Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCourses.map((course, idx) => {
-            const key = course._id ?? course.id ?? idx;
+            const waText = encodeURIComponent(
+              `Hello Sir, I am inquiring about admission details for *${course.title}* at Afsar Educational Academy.`
+            );
+            const waUrl = `https://wa.me/919052407878?text=${waText}`;
 
             return (
-              <RevealOnScroll key={String(key)} delay={idx * 0.08}>
-                <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover border-l-4 border-l-orange">
+              <RevealOnScroll key={course._id || course.id || idx} delay={idx * 0.05}>
+                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md hover:shadow-xl transition-all h-full flex flex-col justify-between card-hover">
                   <div className="space-y-4">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="px-3 py-1 rounded-full bg-navy text-white text-xs font-bold">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-3 py-1 rounded-full bg-navy/10 text-navy text-[11px] font-bold uppercase tracking-wider">
                         {course.category}
                       </span>
                       {course.badge && (
-                        <span className="px-3 py-1 rounded-full bg-orange-light text-orange text-xs font-bold border border-orange/20 flex items-center gap-1">
-                          <Award className="w-3.5 h-3.5" />
+                        <span className="px-3 py-1 rounded-full bg-orange-light text-orange text-[11px] font-bold">
                           {course.badge}
                         </span>
                       )}
                     </div>
 
-                    <h3 className="font-serif text-2xl font-bold text-navy">
-                      {course.title}
-                    </h3>
+                    <h3 className="font-serif text-xl font-bold text-navy">{course.title}</h3>
 
                     {course.description && (
-                      <p className="text-slate-600 text-sm leading-relaxed">
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
                         {course.description}
                       </p>
                     )}
 
                     {course.streams && course.streams.length > 0 && (
-                      <div className="pt-2">
-                        <span className="block text-xs font-bold text-navy mb-1">
-                          Available Streams:
-                        </span>
+                      <div className="pt-2 space-y-1.5">
+                        <span className="block text-xs font-bold text-navy">Available Streams:</span>
                         <div className="flex flex-wrap gap-1.5">
                           {course.streams.map((st, sIdx) => (
                             <span
                               key={sIdx}
-                              className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 text-xs font-medium"
+                              className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium"
                             >
                               {st}
                             </span>
@@ -145,7 +154,7 @@ export default function CoursesClient({ courses, siteConfig }: Props) {
                     )}
 
                     <a
-                      href={siteConfig.whatsappUrl}
+                      href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-5 py-2.5 rounded-xl bg-orange hover:bg-orange-hover text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all"
@@ -158,6 +167,33 @@ export default function CoursesClient({ courses, siteConfig }: Props) {
               </RevealOnScroll>
             );
           })}
+        </div>
+      </section>
+
+      {/* 4. Bottom Counseling Callout */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <div className="bg-navy text-white rounded-3xl p-8 sm:p-10 border border-navy-light/40 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">{ctaHeading}</h3>
+            <p className="text-slate-300 text-xs sm:text-sm max-w-xl">{ctaSubtitle}</p>
+          </div>
+          <div className="flex items-center gap-4 shrink-0">
+            <a
+              href={getWhatsAppLink(siteConfig.whatsappUrl)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3.5 rounded-xl bg-orange hover:bg-orange-hover text-white font-bold text-sm shadow-md transition-transform hover:scale-105"
+            >
+              WhatsApp Counseling
+            </a>
+            <a
+              href={`tel:${(siteConfig.phone || "").replace(/\s+/g, "")}`}
+              className="px-5 py-3.5 rounded-xl border border-white/20 hover:bg-white/10 text-white font-bold text-sm flex items-center gap-2"
+            >
+              <PhoneCall className="w-4 h-4" />
+              <span>Call Director</span>
+            </a>
+          </div>
         </div>
       </section>
     </div>
