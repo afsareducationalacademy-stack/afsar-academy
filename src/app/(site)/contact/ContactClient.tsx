@@ -57,7 +57,7 @@ export default function ContactClient({ siteConfig, contactPageData, buildingPho
   const mapEmbedUrl: string =
     loc?.googleMapsEmbedUrl ||
     siteConfig.googleMapsEmbedUrl ||
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.411623910807!2d78.46128717594951!3d17.39206770266016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb977f6ebca029%3A0x6fb0c8a6ca6ab7df!2sAfsar%20Educational%20Academy!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d951.8571462651842!2d78.46226846132959!3d17.391207907955238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb97710e1687c7%3A0x16b6ca0f5c22cb50!2sAfsar%20Academy!5e0!3m2!1sen!2sin!4v1787290126709!5m2!1sen!2sin";
 
   return (
     <div className="space-y-16 pb-20">
