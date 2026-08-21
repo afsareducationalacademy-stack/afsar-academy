@@ -68,9 +68,9 @@ export default defineType({
         }),
         defineField({
           name: "landmark",
-          title: "Landmark Details",
+          title: "Landmark Details (Optional)",
           type: "string",
-          initialValue: "Adjacent to Aishwaryam, First and Second Floor",
+          description: "Optional landmark note (leave empty if not needed)",
         }),
         defineField({
           name: "googleMapsEmbedUrl",

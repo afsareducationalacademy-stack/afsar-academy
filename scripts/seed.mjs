@@ -285,9 +285,9 @@ documents.push({
   },
   locationSection: {
     buildingPhotoCaption: "Afsar Educational Academy Building Entrance in Nampally, Hyderabad",
-    addressTitle: "Address & Landmark",
+    addressTitle: "Campus Address",
     fullAddress: siteConfigRaw.address?.full,
-    landmark: siteConfigRaw.address?.landmark,
+    landmark: siteConfigRaw.address?.landmark || "",
     googleMapsEmbedUrl: siteConfigRaw.googleMapsEmbedUrl,
   },
   contactDetails: {

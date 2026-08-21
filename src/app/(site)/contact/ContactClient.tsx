@@ -53,7 +53,7 @@ export default function ContactClient({ siteConfig, contactPageData, buildingPho
     siteConfig.address?.full ||
     "Above Al Hareer textiles, opp. to Al Rehma Bakers, Aghapura, Nampally, Hyderabad, Telangana 500001";
   const landmark: string =
-    loc?.landmark || siteConfig.address?.landmark || "Adjacent to Aishwaryam, First and Second Floor";
+    loc?.landmark || siteConfig.address?.landmark || "";
   const mapEmbedUrl: string =
     loc?.googleMapsEmbedUrl ||
     siteConfig.googleMapsEmbedUrl ||
@@ -124,11 +124,15 @@ export default function ContactClient({ siteConfig, contactPageData, buildingPho
                 <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
                   <MapPin className="w-6 h-6 text-orange shrink-0 mt-0.5" />
                   <div>
-                    <strong className="block text-navy font-bold">Address &amp; Landmark</strong>
+                    <strong className="block text-navy font-bold">{loc?.addressTitle || "Address"}</strong>
                     <p className="text-slate-600 text-xs leading-relaxed mt-1">
                       {fullAddress}
-                      <br />
-                      <span className="text-orange font-semibold">({landmark})</span>
+                      {landmark && landmark.trim() !== "" && (
+                        <>
+                          <br />
+                          <span className="text-orange font-semibold">({landmark})</span>
+                        </>
+                      )}
                     </p>
                   </div>
                 </div>
