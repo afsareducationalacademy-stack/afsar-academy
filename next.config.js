@@ -73,6 +73,21 @@ const csp = (isStudio) => {
 };
 
 const nextConfig = {
+  // ─── www → canonical redirect ────────────────────────────────────────────
+  // Permanently redirect www.afsaracademy.com → afsaracademy.com
+  // This fixes Google Search Console "Sitemap could not be read" when the
+  // sitemap is submitted with the www prefix.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.afsaracademy.com" }],
+        destination: "https://afsaracademy.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       // ── Sanity Studio: relaxed policy scoped to /studio only ────────────────
