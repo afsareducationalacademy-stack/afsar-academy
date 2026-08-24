@@ -48,9 +48,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Afsar Educational Academy" }],
   metadataBase: new URL("https://www.afsaracademy.com"),
   alternates: {
-    canonical: "./",
+    canonical: "https://www.afsaracademy.com",
   },
-
+  manifest: "/manifest.json",
   openGraph: {
     title: "Afsar Educational Academy | Excellence in Education",
     description: "Govt. Regd. coaching in Nampally, Hyderabad. SSC, Inter, TOSS, BOSSE & Degree classes. 4.9★ Google Rating.",
@@ -75,9 +75,16 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   icons: {
-    icon: [{ url: "/afsaraclogo.svg", type: "image/svg+xml" }],
-    shortcut: "/afsaraclogo.svg",
-    apple: "/afsaraclogo.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/afsaraclogo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 

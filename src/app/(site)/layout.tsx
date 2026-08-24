@@ -31,30 +31,62 @@ export default async function SiteLayout({
   const rawSiteConfig = await getSiteConfig().catch(() => null);
   const siteConfig = mergeSanity(siteConfigFallback, rawSiteConfig);
 
-  // Schema 1: EducationalOrganization — used by Google for knowledge graph
+  // Schema 1: WebSite — used by Google Search for the Site Name ("Heading")
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Afsar Educational Academy",
+    "alternateName": [
+      "Afsar Academy",
+      "Afsar Educational Academy Nampally",
+      "Afsar Academy Hyderabad",
+      "Afsar Coaching Academy"
+    ],
+    "url": "https://www.afsaracademy.com",
+    "description": siteConfig.tagline || "Government registered (1060/2016) coaching academy in Nampally, Hyderabad offering SSC, Intermediate, TOSS, BOSSE, NIOS and Degree classes.",
+    "inLanguage": "en-IN",
+    "publisher": {
+      "@type": "EducationalOrganization",
+      "name": "Afsar Educational Academy",
+      "url": "https://www.afsaracademy.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.afsaracademy.com/icon.png",
+        "width": 192,
+        "height": 192
+      }
+    }
+  };
+
+  // Schema 2: EducationalOrganization — used by Google for Knowledge Graph
   const eduOrgSchema = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    "name": siteConfig.academyName,
-    "alternateName": siteConfig.shortName,
-    "description": siteConfig.tagline,
-    "url": "https://afsaracademy.in",
-    "logo": "https://afsaracademy.in/afsaraclogo.svg",
-    "image": "https://afsaracademy.in/og-image.jpg",
+    "name": siteConfig.academyName || "Afsar Educational Academy",
+    "alternateName": siteConfig.shortName || "Afsar Academy",
+    "description": siteConfig.tagline || "A Place You Can Grow and Develop",
+    "url": "https://www.afsaracademy.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.afsaracademy.com/icon.png",
+      "width": 192,
+      "height": 192
+    },
+    "image": "https://www.afsaracademy.com/og-image.jpg",
     "telephone": siteConfig.phone,
     "email": siteConfig.email,
     "address": {
       "@type": "PostalAddress",
       "streetAddress": siteConfig.address?.building + ", " + siteConfig.address?.street,
-      "addressLocality": siteConfig.address?.city,
-      "addressRegion": siteConfig.address?.state,
-      "postalCode": siteConfig.address?.pincode,
+      "addressLocality": siteConfig.address?.city || "Hyderabad",
+      "addressRegion": siteConfig.address?.state || "Telangana",
+      "postalCode": siteConfig.address?.pincode || "500001",
       "addressCountry": "IN"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (siteConfig.googleRating || 4.9).toString(),
-      "reviewCount": (siteConfig.totalGoogleReviews || 108).toString(),
+      "reviewCount": (siteConfig.totalGoogleReviews || 127).toString(),
       "bestRating": "5",
       "worstRating": "1"
     },
@@ -63,26 +95,26 @@ export default async function SiteLayout({
     ]
   };
 
-  // Schema 2: LocalBusiness — used by Google for the business panel
-  // (address, phone, hours, maps link) in mobile search results
+  // Schema 3: LocalBusiness — used by Google for the business panel / Local pack
   const localBizSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": siteConfig.academyName,
+    "name": siteConfig.academyName || "Afsar Educational Academy",
+    "alternateName": siteConfig.shortName || "Afsar Academy",
     "description": "Government registered coaching academy in Nampally, Hyderabad offering SSC, Intermediate (MPC/BiPC/CEC), TOSS, BOSSE, NIOS and Degree level coaching.",
-    "url": "https://afsaracademy.in",
+    "url": "https://www.afsaracademy.com",
     "telephone": siteConfig.phone,
     "email": siteConfig.email,
-    "image": "https://afsaracademy.in/og-image.jpg",
-    "priceRange": "₹",
+    "image": "https://www.afsaracademy.com/og-image.jpg",
+    "priceRange": "₹₹",
     "currenciesAccepted": "INR",
-    "paymentAccepted": "Cash, Bank Transfer",
+    "paymentAccepted": "Cash, Bank Transfer, UPI",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": siteConfig.address?.building + ", " + siteConfig.address?.street,
-      "addressLocality": siteConfig.address?.city,
-      "addressRegion": siteConfig.address?.state,
-      "postalCode": siteConfig.address?.pincode,
+      "addressLocality": siteConfig.address?.city || "Hyderabad",
+      "addressRegion": siteConfig.address?.state || "Telangana",
+      "postalCode": siteConfig.address?.pincode || "500001",
       "addressCountry": "IN"
     },
     "geo": {
@@ -101,7 +133,7 @@ export default async function SiteLayout({
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": (siteConfig.googleRating || 4.9).toString(),
-      "reviewCount": (siteConfig.totalGoogleReviews || 108).toString(),
+      "reviewCount": (siteConfig.totalGoogleReviews || 127).toString(),
       "bestRating": "5",
       "worstRating": "1"
     }
@@ -109,6 +141,10 @@ export default async function SiteLayout({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(eduOrgSchema) }}
