@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import siteConfigFallback from "@/data/site-config.json";
 import { getSiteConfig } from "@/lib/queries";
+import { Analytics } from "@vercel/analytics/next";
 
 export const revalidate = 60; // ISR: refresh layout every 60 seconds
 
@@ -160,6 +161,7 @@ export default async function SiteLayout({
         <Footer siteConfig={siteConfig} />
         <WhatsAppButton siteConfig={siteConfig} />
       </div>
+      <Analytics />
     </>
   );
 }
